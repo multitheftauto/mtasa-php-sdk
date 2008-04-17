@@ -7,7 +7,7 @@
 * @copyright	Copyright (C) 2007, Multi Theft Auto
 * @author		JackC, eAi
 * @link			http://www.mtasa.com
-* @version		0.2
+* @version		0.3
 */
 
 class mta
@@ -18,31 +18,78 @@ class mta
 	public $http_username = '';
 	public $http_password = '';
 	
-	public function callFunction( $host, $port, $resource, $function )
+	public $host = '';
+	public $port = '';
+	
+	private $resources = array();
+	
+	public function mta( $host, $port, $username = "", $pass = "" )
+	{
+		$this->host = $host;
+		$this->port = $port;
+		$this->http_username = $username;
+		$this->http_password = $pass;
+	}
+	
+	public function getResource ( $resourceName )
+	{
+		foreach ( $this->resources as $resource )
+		{
+			if ( $resource->getName == $resourceName )
+				return $resource;
+		}
+		
+		$res = new Resource ( $resourceName, $this );
+		$this->resources[] = $res;
+		return $res;
+	}
+	
+	public static function getInput()
+	{
+		$out = mta::convertToObjects( json_decode( file_get_contents('php://input'), true ) );
+		return (is_array($out)) ? $out : false;
+	}
+	
+	public static function doReturn()
 	{
 		$val = array();
 		
-		for ( $i = 4; $i < func_num_args(); $i++ )
+		for ( $i = 0; $i < func_num_args(); $i++ )
 		{
-			$val[$i-4] = func_get_arg($i);
+			$val[$i] = func_get_arg($i);
 	    }
-	    
-		$val = $this->convertFromObjects($val);
+		
+		$val = mta::convertFromObjects($val);
 		$json_output = json_encode($val);
-		$path = "/" . $resource . "/call/" . $function;
-		$result = $this->do_post_request( $host, $port, $path, $json_output );
-		$out = $this->convertToObjects( json_decode( $result, true ) );
+		echo $json_output;
+	}
+	
+	public function callFunction( $resourceName, $function, $args )
+	{
+		if ( $args != null )
+		{
+			$args = mta::convertFromObjects($args);
+			$json_output = json_encode($args);
+		}
+		else
+		{
+			$json_output = "";
+		}
+		$path = "/" . $resourceName . "/call/" . $function;
+		$result = $this->do_post_request( $this->host, $this->port, $path, $json_output );
+		echo $json_output;
+		$out = mta::convertToObjects( json_decode( $result, true ) );
 		
 		return (is_array($out)) ? $out : false;
 	}
 	
-	public function convertToObjects( $item )
+	public static function convertToObjects( $item )
 	{
 		if ( is_array($item) )
 		{
 			foreach ( $item as &$value ) 
 			{
-				$value = $this->convertToObjects( $value );
+				$value = mta::convertToObjects( $value );
 			}
 		}
 		else if ( is_string($item) )
@@ -53,20 +100,20 @@ class mta
 			}
 			elseif ( substr( $item, 0, 3 ) == "^R^" )
 			{
-				$item = new Resource( substr( $item, 3 ) );
+				$item = $this->getResource( substr( $item, 3 ) );
 			}
 		}
 		
 		return $item;
 	}
 	
-	public function convertFromObjects( $item )
+	public static function convertFromObjects( $item )
 	{
 		if ( is_array($item) )
 		{
 			foreach ( $item as &$value ) 
 			{
-				$value = $this->convertFromObjects($value);
+				$value = mta::convertFromObjects($value);
 			}
 		}
 		elseif ( is_object($item) )
@@ -176,18 +223,38 @@ class Element
 	}
 }
 
+
 class Resource
 {
 	var $name;
+	private $server;
 
-	function Resource($name)
+	function Resource($name, $server)
 	{
 		$this->name = $name;
+		$this->server = $server;
 	}
 
 	function toString()
 	{
 		return "^R^" . $this->name;
+	}
+	
+	public function getName()
+	{
+		return $this->name;
+	}
+	
+	function call ( $function )
+	{
+		
+		$val = array();
+		
+		for ( $i = 1; $i < func_num_args(); $i++ )
+		{
+			$val[$i-1] = func_get_arg($i);
+	    }
+		return $this->server->callFunction ( $this->name, $function, $val );
 	}
 }
 ?>
