@@ -4,10 +4,10 @@
 * MTA PHP SDK
 ************************************
 *
-* @copyright	Copyright (C) 2007, Multi Theft Auto
-* @author		JackC, eAi
+* @copyright	Copyright (C) 2010, Multi Theft Auto
+* @author		JackC, eAi, Sebas
 * @link			http://www.mtasa.com
-* @version		0.3
+* @version		0.4
 */
 
 class mta
@@ -23,7 +23,7 @@ class mta
 	
 	private $resources = array();
 	
-	public function mta( $host, $port, $username = "", $pass = "" )
+	public function __construct( $host, $port, $username = "", $pass = "" )
 	{
 		$this->host = $host;
 		$this->port = $port;
