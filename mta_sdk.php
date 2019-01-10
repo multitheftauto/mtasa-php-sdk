@@ -211,7 +211,7 @@ class Element
 {
 	var $id;
 
-	function Element($id)
+	function __construct($id)
 	{
 		$this->id = $id;
 	}
@@ -228,7 +228,7 @@ class Resource
 	var $name;
 	private $server;
 
-	function Resource($name, $server)
+	function __construct($name, $server)
 	{
 		$this->name = $name;
 		$this->server = $server;
