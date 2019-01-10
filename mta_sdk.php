@@ -77,7 +77,6 @@ class mta
 		}
 		$path = "/" . $resourceName . "/call/" . $function;
 		$result = $this->do_post_request( $this->host, $this->port, $path, $json_output );
-		echo $json_output;
 		$out = mta::convertToObjects( json_decode( $result, true ) );
 		
 		return (is_array($out)) ? $out : false;
