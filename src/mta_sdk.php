@@ -10,6 +10,8 @@
 * @version		0.4
 */
 
+namespace MultiTheftAuto\Sdk;
+
 class mta
 {
 	private $useCurl = false;
