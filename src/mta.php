@@ -12,6 +12,10 @@
 
 namespace MultiTheftAuto\Sdk;
 
+use Exception;
+use MultiTheftAuto\Sdk\Model\Resource;
+use MultiTheftAuto\Sdk\Model\Element;
+
 class mta
 {
 	private $useCurl = false;
@@ -83,48 +87,48 @@ class mta
 		
 		return (is_array($out)) ? $out : false;
 	}
-	
+
 	public static function convertToObjects( $item )
 	{
 		if ( is_array($item) )
 		{
-			foreach ( $item as &$value ) 
+			foreach ( $item as &$value )
 			{
 				$value = mta::convertToObjects( $value );
 			}
 		}
 		else if ( is_string($item) )
-		{	
+		{
 			if ( substr( $item, 0, 3 ) == "^E^" )
 			{
 				$item = new Element( substr( $item, 3 ) );
 			}
 			elseif ( substr( $item, 0, 3 ) == "^R^" )
 			{
-				$item = $this->getResource( substr( $item, 3 ) );
+				$item = new Resource( substr( $item, 3 ) );
 			}
 		}
-		
+
 		return $item;
 	}
-	
+
 	public static function convertFromObjects( $item )
 	{
 		if ( is_array($item) )
 		{
-			foreach ( $item as &$value ) 
+			foreach ( $item as &$value )
 			{
 				$value = mta::convertFromObjects($value);
 			}
 		}
 		elseif ( is_object($item) )
-		{	
+		{
 			if ( get_class($item) == "Element" || get_class($item) == "Resource" )
 			{
 				$item = $item->toString();
 			}
 		}
-		
+
 		return $item;
 	}
 	
@@ -157,7 +161,6 @@ class mta
 			
 			$out .= "Content-Length: " . strlen($json_data) . "\r\n";
 			$out .= "Content-Type: application/x-www-form-urlencoded\r\n\r\n";
-			//$out .= "Connection: close\r\n\r\n";
 			$out .= $json_data . "\r\n\r\n";
 			
 			if ( !fputs( $fp, $out ) )
@@ -208,54 +211,3 @@ class mta
 		}
 	}
 }
-
-class Element
-{
-	var $id;
-
-	function __construct($id)
-	{
-		$this->id = $id;
-	}
-
-	function toString()
-	{
-		return "^E^" . $this->id;
-	}
-}
-
-
-class Resource
-{
-	var $name;
-	private $server;
-
-	function __construct($name, $server)
-	{
-		$this->name = $name;
-		$this->server = $server;
-	}
-
-	function toString()
-	{
-		return "^R^" . $this->name;
-	}
-	
-	public function getName()
-	{
-		return $this->name;
-	}
-	
-	function call ( $function )
-	{
-		
-		$val = array();
-		
-		for ( $i = 1; $i < func_num_args(); $i++ )
-		{
-			$val[$i-1] = func_get_arg($i);
-	    }
-		return $this->server->callFunction ( $this->name, $function, $val );
-	}
-}
-?>
