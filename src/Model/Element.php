@@ -2,9 +2,10 @@
 
 /*****************************************************************************
  *
- *  PROJECT:     MTASA PHP SDK
+ *  PROJECT:     MTA PHP SDK
  *  LICENSE:     See LICENSE in the top level directory
  *  FILE:        Element.php
+ *  VERSION:     0.5
  *
  *  Multi Theft Auto is available from http://www.multitheftauto.com/
  *
