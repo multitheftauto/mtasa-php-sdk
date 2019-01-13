@@ -16,15 +16,15 @@ namespace MultiTheftAuto\Sdk\Model;
 
 class Element
 {
-    var $id;
+    protected $id;
 
-    function __construct($id)
+    public function __construct($id)
     {
         $this->id = $id;
     }
 
-    function toString()
+    public function toString()
     {
-        return "^E^" . $this->id;
+        return '^E^' . $this->id;
     }
 }
