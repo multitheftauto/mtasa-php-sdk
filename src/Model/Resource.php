@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace MultiTheftAuto\Sdk\Model;
 
+use Exception;
+
 class Resource
 {
     private $name;
@@ -25,28 +27,22 @@ class Resource
         $this->server = $server;
     }
 
-    public function toString()
-    {
-        return '^R^' . $this->name;
-    }
-
     public function getName()
     {
         return $this->name;
     }
 
-    public function call($function)
+    public function call($function, ...$arguments)
     {
         if (!$this->server) {
             throw new Exception(sprintf('Resource %s can not be called because server is not defined', $this->name));
         }
 
-        $val = [];
+        return $this->server->callFunction($this->name, $function, $arguments);
+    }
 
-        for ($i = 1; $i < func_num_args(); $i++) {
-            $val[$i - 1] = func_get_arg($i);
-        }
-
-        return $this->server->callFunction($this->name, $function, $val);
+    public function __toString()
+    {
+        return '^R^' . $this->name;
     }
 }

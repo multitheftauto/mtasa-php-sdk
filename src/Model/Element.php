@@ -23,7 +23,7 @@ class Element
         $this->id = $id;
     }
 
-    public function toString()
+    public function __toString()
     {
         return '^E^' . $this->id;
     }

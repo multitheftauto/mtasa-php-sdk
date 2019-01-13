@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace MultiTheftAuto\Sdk;
 
 use Exception;
+use InvalidArgumentException;
 use MultiTheftAuto\Sdk\Model\Element;
 use MultiTheftAuto\Sdk\Model\Resource;
 
@@ -31,7 +32,7 @@ class mta
 
     protected $resources = [];
 
-    public function __construct($host, $port, $username = '', $pass = '')
+    public function __construct(string $host, int $port, string $username = '', string $pass = '')
     {
         $this->host = $host;
         $this->port = $port;
@@ -39,53 +40,45 @@ class mta
         $this->http_password = $pass;
     }
 
-    public function getResource($resourceName)
+    public function getResource(string $resourceName)
     {
         foreach ($this->resources as $resource) {
-            if ($resource->getName == $resourceName) {
+            if ($resource->getName() == $resourceName) {
                 return $resource;
             }
         }
 
-        $res = new Resource($resourceName, $this);
-        $this->resources[] = $res;
+        $resource = new Resource($resourceName, $this);
+        $this->resources[] = $resource;
 
-        return $res;
+        return $resource;
     }
 
     public static function getInput()
     {
-        $out = mta::convertToObjects(json_decode(file_get_contents('php://input'), true));
-
-        return (is_array($out)) ? $out : false;
-    }
-
-    public static function doReturn()
-    {
-        $val = [];
-
-        for ($i = 0; $i < func_num_args(); $i++) {
-            $val[$i] = func_get_arg($i);
+        $input = file_get_contents('php://input');
+        if (!$input) {
+            return false;
         }
 
-        $val = mta::convertFromObjects($val);
-        $json_output = json_encode($val);
-        echo $json_output;
+        $inputArray = json_decode($input, true);
+        return mta::convertToObjects($inputArray)?? false;
     }
 
-    public function callFunction($resourceName, $function, $args)
+    public static function doReturn(...$arguments)
     {
-        if ($args != null) {
-            $args = mta::convertFromObjects($args);
-            $json_output = json_encode($args);
-        } else {
-            $json_output = '';
-        }
-        $path = '/' . $resourceName . '/call/' . $function;
+        $arguments = mta::convertFromObjects($arguments);
+        echo json_encode($arguments);
+    }
+
+    public function callFunction(string $resourceName, string $function, array $arguments = null)
+    {
+        $json_output = $arguments? mta::convertFromObjects(json_encode($arguments)) : '';
+        $path = sprintf('/%s/call/%s', $resourceName, $function);
         $result = $this->do_post_request($this->host, $this->port, $path, $json_output);
         $out = mta::convertToObjects(json_decode($result, true));
 
-        return (is_array($out)) ? $out : false;
+        return $out?? false;
     }
 
     public static function convertToObjects($item)
@@ -100,6 +93,8 @@ class mta
             } elseif (substr($item, 0, 3) == '^R^') {
                 $item = new Resource(substr($item, 3));
             }
+        } else {
+            throw new InvalidArgumentException('Bad argument at convertToObjects');
         }
 
         return $item;
@@ -111,13 +106,9 @@ class mta
             foreach ($item as &$value) {
                 $value = mta::convertFromObjects($value);
             }
-        } elseif (is_object($item)) {
-            if (get_class($item) == 'Element' || get_class($item) == 'Resource') {
-                $item = $item->toString();
-            }
         }
 
-        return $item;
+        return (string) $item;
     }
 
     public function do_post_request($host, $port, $path, $json_data)
@@ -173,18 +164,20 @@ class mta
 
         if ($statusCode != 200) {
             switch ($statusCode) {
-                       case 401:
-                           throw new Exception('Access Denied. This server requires authentication. Please ensure that a valid username and password combination is provided.');
-                       break;
+               case 401:
+                   throw new Exception('Access Denied. This server requires authentication. Please ensure that a valid username and password combination is provided.');
+                   break;
 
-                       case 404:
-                           throw new Exception('There was a problem with the request. Ensure that the resource exists and that the name is spelled correctly.');
-                       break;
-                   }
+               case 404:
+                   throw new Exception('There was a problem with the request. Ensure that the resource exists and that the name is spelled correctly.');
+                   break;
+           }
         }
 
         if (preg_match('/^error/i', $response)) {
-            throw new Exception(ucwords(preg_replace("/^error:?\s*/i", '', $response)));
+            $errorResponse = preg_replace("/^error:?\s*/i", '', $response) ?? 'Error';
+            $errorResponse = ucwords($errorResponse);
+            throw new Exception($errorResponse);
         }
 
         return $response;
