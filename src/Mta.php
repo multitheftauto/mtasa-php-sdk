@@ -25,7 +25,7 @@ use MultiTheftAuto\Sdk\Model\Resources;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 
-class mta
+class Mta
 {
     protected $server;
     protected $credential;
