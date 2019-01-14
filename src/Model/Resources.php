@@ -17,6 +17,9 @@ namespace MultiTheftAuto\Sdk\Model;
 
 class Resources
 {
+    /**
+     * @var Resource[]
+     */
     protected $resources = [];
 
     public function findByName(string $name): ?Resource
