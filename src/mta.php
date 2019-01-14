@@ -21,6 +21,7 @@ use MultiTheftAuto\Sdk\Model\Element;
 use MultiTheftAuto\Sdk\Model\Resource;
 use MultiTheftAuto\Sdk\Authentication\Credential;
 use MultiTheftAuto\Sdk\Model\Server;
+use MultiTheftAuto\Sdk\Model\Resources;
 
 class mta
 {
@@ -29,25 +30,23 @@ class mta
 
     protected $server;
     protected $credential;
-
-    protected $resources = [];
+    protected $resources;
 
     public function __construct(Server $server, Credential $credential)
     {
         $this->server = $server;
         $this->credential = $credential;
+        $this->resources = new Resources();
     }
 
     public function getResource(string $resourceName)
     {
-        foreach ($this->resources as $resource) {
-            if ($resource->getName() == $resourceName) {
-                return $resource;
-            }
-        }
+        $resource = $this->resources->findByName($resourceName);
 
-        $resource = new Resource($resourceName, $this);
-        $this->resources[] = $resource;
+        if (!$resource) {
+            $resource = new Resource($resourceName, $this);
+            $this->resources->add($resource);
+        }
 
         return $resource;
     }
