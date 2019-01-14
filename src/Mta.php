@@ -16,8 +16,10 @@ declare(strict_types=1);
 namespace MultiTheftAuto\Sdk;
 
 use Exception;
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
+use Http\Client\HttpClient;
+use Http\Discovery\HttpClientDiscovery;
+use Http\Discovery\MessageFactoryDiscovery;
+use Http\Message\MessageFactory;
 use InvalidArgumentException;
 use MultiTheftAuto\Sdk\Authentication\Credential;
 use MultiTheftAuto\Sdk\Model\Element;
@@ -27,17 +29,38 @@ use MultiTheftAuto\Sdk\Model\Server;
 
 class Mta
 {
+    /**
+     * @var Server
+     */
     protected $server;
-    protected $credential;
-    protected $resources;
-    protected $client;
 
-    public function __construct(Server $server, Credential $credential, Client $client = null)
+    /**
+     * @var Credential
+     */
+    protected $credential;
+
+    /**
+     * @var Resources
+     */
+    protected $resources;
+
+    /**
+     * @var HttpClient
+     */
+    protected $httpClient;
+
+    /**
+     * @var MessageFactory
+     */
+    protected $requestFactory;
+
+    public function __construct(Server $server, Credential $credential, HttpClient $httpClient = null, MessageFactory $requestFactory = null)
     {
         $this->server = $server;
         $this->credential = $credential;
         $this->resources = new Resources();
-        $this->client = $client?? new Client();
+        $this->httpClient = $httpClient?? HttpClientDiscovery::find();
+        $this->requestFactory = $requestFactory?? MessageFactoryDiscovery::find();
     }
 
     public function getResource(string $resourceName)
@@ -111,7 +134,7 @@ class Mta
 
     public function do_post_request($path, $json_data)
     {
-        $request = new Request(
+        $request = $this->requestFactory->createRequest(
             'POST',
             sprintf('%s/%s', $this->server->getBaseUri(), $path),
             [
@@ -121,7 +144,7 @@ class Mta
             $json_data
         );
 
-        $response = $this->client->send($request);
+        $response = $this->httpClient->sendRequest($request);
         $statusCode = $response->getStatusCode();
 
         if ($statusCode == 200) {

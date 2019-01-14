@@ -7,12 +7,13 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.0",
-        "ext-curl": "^7.2",
-        "ext-json": "^1.6",
-        "guzzlehttp/guzzle": "^6.3"
+        "ext-json": "^1.5",
+        "php-http/httplug": "^2.0",
+        "php-http/client-implementation": "^1.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.13",
+        "php-http/mock-client": "^1.1",
         "phpstan/phpstan": "^0.10.7",
         "phpunit/phpunit": "^7"
     },
@@ -25,11 +26,6 @@
     "autoload": {
         "psr-4": {
             "MultiTheftAuto\\Sdk\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "MultiTheftAuto\\Sdk\\": "tests/"
         }
     },
     "scripts": {

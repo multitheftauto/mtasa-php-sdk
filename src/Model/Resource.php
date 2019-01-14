@@ -16,13 +16,21 @@ declare(strict_types=1);
 namespace MultiTheftAuto\Sdk\Model;
 
 use Exception;
+use MultiTheftAuto\Sdk\Mta;
 
 class Resource
 {
+    /**
+     * @var string
+     */
     private $name;
+
+    /**
+     * @var Mta|null
+     */
     private $server;
 
-    public function __construct($name, $server = null)
+    public function __construct(string $name, Mta $server = null)
     {
         $this->name = $name;
         $this->server = $server;
