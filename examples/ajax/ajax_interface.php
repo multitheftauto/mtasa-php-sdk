@@ -1,6 +1,6 @@
 <?php
 
-use MultiTheftAuto\Sdk\mta;
+use MultiTheftAuto\Sdk\Mta;
 use MultiTheftAuto\Sdk\Authentication\Credential;
 use MultiTheftAuto\Sdk\Model\Server;
 
@@ -28,7 +28,7 @@ try {
 
 	$server = new Server($host, $port);
 	$credential = new Credential($http_username, $http_password);
-    $mta = new mta($server, $credential);
+    $mta = new Mta($server, $credential);
 
 	$val = explode(",", $val);
 	$json_data = json_encode($val);

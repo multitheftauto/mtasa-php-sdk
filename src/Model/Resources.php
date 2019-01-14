@@ -24,18 +24,15 @@ class Resources
 
     public function findByName(string $name): ?Resource
     {
-        $found = array_filter($this->resources, function($resource) use ($name) {
+        $found = array_filter($this->resources, function(Resource $resource) use ($name) {
             return $resource->getName() == $name;
         });
 
-        if (empty($found)) {
-            return null;
-        }
-        return $found[0];
+        return current($found)?? null;
     }
 
-    public function add(Resource $resource): bool
+    public function add(Resource $resource): void
     {
-        return (bool) $resource[] = $resource;
+        $resources[] = $resource;
     }
 }

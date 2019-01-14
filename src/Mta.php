@@ -16,14 +16,14 @@ declare(strict_types=1);
 namespace MultiTheftAuto\Sdk;
 
 use Exception;
-use InvalidArgumentException;
-use MultiTheftAuto\Sdk\Model\Element;
-use MultiTheftAuto\Sdk\Model\Resource;
-use MultiTheftAuto\Sdk\Authentication\Credential;
-use MultiTheftAuto\Sdk\Model\Server;
-use MultiTheftAuto\Sdk\Model\Resources;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
+use InvalidArgumentException;
+use MultiTheftAuto\Sdk\Authentication\Credential;
+use MultiTheftAuto\Sdk\Model\Element;
+use MultiTheftAuto\Sdk\Model\Resource;
+use MultiTheftAuto\Sdk\Model\Resources;
+use MultiTheftAuto\Sdk\Model\Server;
 
 class Mta
 {
@@ -60,21 +60,21 @@ class Mta
         }
 
         $inputArray = json_decode($input, true);
-        return mta::convertToObjects($inputArray)?? false;
+        return Mta::convertToObjects($inputArray)?? false;
     }
 
     public static function doReturn(...$arguments)
     {
-        $arguments = mta::convertFromObjects($arguments);
+        $arguments = Mta::convertFromObjects($arguments);
         echo json_encode($arguments);
     }
 
     public function callFunction(string $resourceName, string $function, array $arguments = null)
     {
-        $json_output = $arguments? mta::convertFromObjects(json_encode($arguments)) : '';
+        $json_output = $arguments? Mta::convertFromObjects(json_encode($arguments)) : '';
         $path = sprintf('/%s/call/%s', $resourceName, $function);
         $result = $this->do_post_request($path, $json_output);
-        $out = mta::convertToObjects(json_decode($result, true));
+        $out = Mta::convertToObjects(json_decode($result, true));
 
         return $out?? false;
     }
@@ -83,7 +83,7 @@ class Mta
     {
         if (is_array($item)) {
             foreach ($item as &$value) {
-                $value = mta::convertToObjects($value);
+                $value = Mta::convertToObjects($value);
             }
         } elseif (is_string($item)) {
             if (substr($item, 0, 3) == '^E^') {
@@ -102,7 +102,7 @@ class Mta
     {
         if (is_array($item)) {
             foreach ($item as &$value) {
-                $value = mta::convertFromObjects($value);
+                $value = Mta::convertFromObjects($value);
             }
         }
 
@@ -113,9 +113,9 @@ class Mta
     {
         $request = new Request(
             'POST',
-            sprintf('%s/%s', $this->server->getBaseUri(), $$path),
+            sprintf('%s/%s', $this->server->getBaseUri(), $path),
             [
-                'Content-type' => 'text/xml; charset=UTF8',
+                'Content-type' => 'text/json; charset=UTF8',
                 'auth' => [$this->credential->getUser(), $this->credential->getPassword()],
             ],
             $json_data
