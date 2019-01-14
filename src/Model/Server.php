@@ -5,6 +5,7 @@
  *  PROJECT:     MTA PHP SDK
  *  LICENSE:     See LICENSE in the top level directory
  *  FILE:        Server.php
+ *  VERSION:     1.0.0
  *
  *  Multi Theft Auto is available from http://www.multitheftauto.com/
  *
