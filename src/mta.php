@@ -20,23 +20,21 @@ use InvalidArgumentException;
 use MultiTheftAuto\Sdk\Model\Element;
 use MultiTheftAuto\Sdk\Model\Resource;
 use MultiTheftAuto\Sdk\Authentication\Credential;
+use MultiTheftAuto\Sdk\Model\Server;
 
 class mta
 {
     protected $useCurl = false;
     protected $sockTimeout = 6; // seconds
 
-    public $host = '';
-    public $port = '';
-
+    protected $server;
     protected $credential;
 
     protected $resources = [];
 
-    public function __construct(string $host, int $port, Credential $credential)
+    public function __construct(Server $server, Credential $credential)
     {
-        $this->host = $host;
-        $this->port = $port;
+        $this->server = $server;
         $this->credential = $credential;
     }
 
@@ -75,7 +73,7 @@ class mta
     {
         $json_output = $arguments? mta::convertFromObjects(json_encode($arguments)) : '';
         $path = sprintf('/%s/call/%s', $resourceName, $function);
-        $result = $this->do_post_request($this->host, $this->port, $path, $json_output);
+        $result = $this->do_post_request($path, $json_output);
         $out = mta::convertToObjects(json_decode($result, true));
 
         return $out?? false;
@@ -111,11 +109,11 @@ class mta
         return (string) $item;
     }
 
-    public function do_post_request($host, $port, $path, $json_data)
+    public function do_post_request($path, $json_data)
     {
         if ($this->useCurl) {
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, "http://{$host}:{$port}{$path}");
+            curl_setopt($ch, CURLOPT_URL, "{$this->server->getBaseUri()}{$path}");
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $json_data);
             $result = curl_exec($ch);
@@ -124,12 +122,12 @@ class mta
             return $result;
         }
 
-        if (!$fp = @fsockopen($host, $port, $errno, $errstr, $this->sockTimeout)) {
-            throw new Exception("Could not connect to {$host}:{$port}");
+        if (!$fp = @fsockopen($this->server->getHost(), $this->server->getPort(), $errno, $errstr, $this->sockTimeout)) {
+            throw new Exception("Could not connect to {$this->server->getHost()}:{$this->server->getPort()}");
         }
 
         $out = "POST {$path} HTTP/1.0\r\n";
-        $out .= "Host: {$host}:{$port}\r\n";
+        $out .= "Host: {$this->server->getBaseUri()}\r\n";
 
         if ($this->credential->getUser() && $this->credential->getPassword()) {
             $out .= 'Authorization: Basic ' . base64_encode("{$this->credential->getUser()}:{$this->credential->getPassword()}") . "\r\n";
@@ -140,7 +138,7 @@ class mta
         $out .= $json_data . "\r\n\r\n";
 
         if (!fputs($fp, $out)) {
-            throw new Exception("Unable to send request to {$host}:{$port}");
+            throw new Exception("Unable to send request to {$this->server->getBaseUri()}");
         }
 
         @stream_set_timeout($fp, $this->sockTimeout);
