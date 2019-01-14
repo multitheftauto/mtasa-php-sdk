@@ -33,9 +33,10 @@
         "lint:check": [
             "php-cs-fixer fix --dry-run --verbose --show-progress=estimating"
         ],
-        "phpunit": "phpunit",
-        "phpstan": "phpstan analyze",
+        "phpunit": "phpunit tests",
+        "phpstan": "phpstan analyse",
         "test": [
+            "@lint:check",
             "@phpunit",
             "@phpstan"
         ]
