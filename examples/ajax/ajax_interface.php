@@ -1,6 +1,7 @@
 <?php
 
 use MultiTheftAuto\Sdk\mta;
+use MultiTheftAuto\Sdk\Authentication\Credential;
 
 // =============================
 // (Config) HTTP Username / Password
@@ -23,7 +24,8 @@ try {
 	if ( !$http_username && !$http_password ) {
 		throw new Exception('Invalid credentials');
 	}
-    $mta = new mta($host, $port, $http_username, $http_password);
+	$credential = new Credential($http_username, $http_password);
+    $mta = new mta($host, $port, $credential);
 
 	$val = explode(",", $val);
 	$json_data = json_encode($val);

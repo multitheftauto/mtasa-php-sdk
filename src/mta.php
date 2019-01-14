@@ -19,26 +19,25 @@ use Exception;
 use InvalidArgumentException;
 use MultiTheftAuto\Sdk\Model\Element;
 use MultiTheftAuto\Sdk\Model\Resource;
+use MultiTheftAuto\Sdk\Authentication\Credential;
 
 class mta
 {
     protected $useCurl = false;
     protected $sockTimeout = 6; // seconds
 
-    public $http_username = '';
-    public $http_password = '';
-
     public $host = '';
     public $port = '';
 
+    protected $credential;
+
     protected $resources = [];
 
-    public function __construct(string $host, int $port, string $username = '', string $pass = '')
+    public function __construct(string $host, int $port, Credential $credential)
     {
         $this->host = $host;
         $this->port = $port;
-        $this->http_username = $username;
-        $this->http_password = $pass;
+        $this->credential = $credential;
     }
 
     public function getResource(string $resourceName)
@@ -132,8 +131,8 @@ class mta
         $out = "POST {$path} HTTP/1.0\r\n";
         $out .= "Host: {$host}:{$port}\r\n";
 
-        if ($this->http_username && $this->http_password) {
-            $out .= 'Authorization: Basic ' . base64_encode("{$this->http_username}:{$this->http_password}") . "\r\n";
+        if ($this->credential->getUser() && $this->credential->getPassword()) {
+            $out .= 'Authorization: Basic ' . base64_encode("{$this->credential->getUser()}:{$this->credential->getPassword()}") . "\r\n";
         }
 
         $out .= 'Content-Length: ' . strlen($json_data) . "\r\n";
