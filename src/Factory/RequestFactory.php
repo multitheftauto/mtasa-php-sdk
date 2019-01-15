@@ -15,9 +15,9 @@ declare(strict_types=1);
 
 namespace MultiTheftAuto\Sdk\Factory;
 
+use Http\Message\MessageFactory;
 use InvalidArgumentException;
 use MultiTheftAuto\Sdk\Authentication\Credential;
-use Http\Message\MessageFactory;
 use Psr\Http\Message\RequestInterface;
 
 class RequestFactory

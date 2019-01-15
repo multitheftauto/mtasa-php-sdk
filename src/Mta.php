@@ -20,12 +20,12 @@ use Http\Discovery\HttpClientDiscovery;
 use Http\Discovery\MessageFactoryDiscovery;
 use Http\Message\MessageFactory;
 use MultiTheftAuto\Sdk\Authentication\Credential;
+use MultiTheftAuto\Sdk\Factory\RequestFactory;
 use MultiTheftAuto\Sdk\Model\Resource;
 use MultiTheftAuto\Sdk\Model\Resources;
 use MultiTheftAuto\Sdk\Model\Server;
 use MultiTheftAuto\Sdk\Response\HttpStatusVerification;
 use MultiTheftAuto\Sdk\Utils\Translator;
-use MultiTheftAuto\Sdk\Factory\RequestFactory;
 
 class Mta
 {
@@ -94,7 +94,7 @@ class Mta
 
     public function callFunction(string $resourceName, string $function, array $arguments = null)
     {
-        $json_output = $arguments? json_encode(Translator::toServer($arguments)) : '';
+        $json_output = $arguments? Translator::toServer($arguments) : '';
         $path = sprintf('/%s/call/%s', $resourceName, $function);
         $result = $this->do_post_request($path, $json_output);
         $out = Translator::fromServer(json_decode($result, true));

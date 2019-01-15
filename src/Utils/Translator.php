@@ -20,33 +20,48 @@ use MultiTheftAuto\Sdk\Model\Resource;
 
 class Translator
 {
-    public static function fromServer($item)
+    public static function fromServer(array $dataFromServer): array
     {
-        if (is_array($item)) {
-            foreach ($item as &$value) {
-                $value = Translator::fromServer($value);
-            }
-        } elseif (is_string($item)) {
-            if (substr($item, 0, 3) == '^E^') {
-                $item = new Element(substr($item, 3));
-            } elseif (substr($item, 0, 3) == '^R^') {
-                $item = new Resource(substr($item, 3));
-            }
-        } else {
-            throw new InvalidArgumentException('Bad argument at convertToObjects');
+        foreach ($dataFromServer as &$value) {
+            Translator::stringValuesToObjects($value);
         }
 
-        return $item;
+        return $dataFromServer;
     }
 
-    public static function toServer($item)
+    public static function toServer(array $inputData): string
     {
-        if (is_array($item)) {
-            foreach ($item as &$value) {
-                $value = Translator::toServer($value);
-            }
+        foreach ($inputData as &$value) {
+            Translator::objectValuesToString($value);
         }
 
-        return (string) $item;
+        return json_encode($inputData);
+    }
+
+    protected static function stringValuesToObjects(&$value): void
+    {
+        if (is_array($value)) {
+            foreach ($value as &$subValue) {
+                Translator::stringValuesToObjects($subValue);
+            }
+        } elseif (is_string($value)) {
+            $valuePrefix = substr($value, 0, 3);
+            if ($valuePrefix == '^E^') {
+                $value = new Element(substr($value, 3));
+            } elseif ($valuePrefix == '^R^') {
+                $value = new Resource(substr($value, 3));
+            }
+        }
+    }
+
+    protected static function objectValuesToString(&$value): void
+    {
+        if (is_array($value)) {
+            foreach ($value as &$subValue) {
+                Translator::objectValuesToString($subValue);
+            }
+        } else {
+            $value = (string) $value;
+        }
     }
 }
