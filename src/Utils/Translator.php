@@ -35,7 +35,7 @@ class Translator
             Translator::objectValuesToString($value);
         }
 
-        return json_encode($inputData);
+        return (string) json_encode($inputData);
     }
 
     protected static function stringValuesToObjects(&$value): void

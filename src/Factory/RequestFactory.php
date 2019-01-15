@@ -95,8 +95,7 @@ class RequestFactory
 
     protected function buildParameters(): array
     {
-        if (!$this->credential)
-        {
+        if (!empty($this->credential)) {
             throw new InvalidArgumentException('Credential was not set for this call');
         }
 
