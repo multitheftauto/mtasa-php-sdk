@@ -25,6 +25,7 @@ use MultiTheftAuto\Sdk\Model\Resource;
 use MultiTheftAuto\Sdk\Model\Resources;
 use MultiTheftAuto\Sdk\Model\Server;
 use MultiTheftAuto\Sdk\Response\HttpStatusVerification;
+use MultiTheftAuto\Sdk\Utils\Input;
 use MultiTheftAuto\Sdk\Utils\Translator;
 
 class Mta
@@ -81,12 +82,7 @@ class Mta
 
     public static function getInput(): ?array
     {
-        $input = file_get_contents('php://input');
-        if (!$input) {
-            return null;
-        }
-
-        return Translator::fromServer($input)?? null;
+        return Translator::fromServer(Input::get())?? null;
     }
 
     public static function doReturn(...$arguments): void
