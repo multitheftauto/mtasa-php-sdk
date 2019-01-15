@@ -67,7 +67,7 @@ class Mta
         $this->messageFactory = $messageFactory?? MessageFactoryDiscovery::find();
     }
 
-    public function getResource(string $resourceName)
+    public function getResource(string $resourceName): Resource
     {
         $resource = $this->resources->findByName($resourceName);
 
@@ -94,17 +94,17 @@ class Mta
         echo Translator::toServer($arguments);
     }
 
-    public function callFunction(string $resourceName, string $function, array $arguments = null)
+    public function callFunction(string $resourceName, string $function, array $arguments = null): ?array
     {
         $json_output = $arguments? Translator::toServer($arguments) : '';
         $path = sprintf('/%s/call/%s', $resourceName, $function);
         $result = $this->do_post_request($path, $json_output);
         $out = Translator::fromServer($result);
 
-        return $out?? false;
+        return $out?? null;
     }
 
-    protected function do_post_request($path, $json_data)
+    protected function do_post_request($path, $json_data): string
     {
         $request = RequestFactory::useMessageFactory($this->messageFactory);
         $request->setMethod('POST');
