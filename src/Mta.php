@@ -54,8 +54,12 @@ class Mta
      */
     protected $messageFactory;
 
-    public function __construct(Server $server, Credential $credential, HttpClient $httpClient = null, MessageFactory $messageFactory = null)
-    {
+    public function __construct(
+        Server $server,
+        Credential $credential,
+        HttpClient $httpClient = null,
+        MessageFactory $messageFactory = null
+    ) {
         $this->server = $server;
         $this->credential = $credential;
         $this->resources = new Resources();
