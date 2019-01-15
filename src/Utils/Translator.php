@@ -20,8 +20,9 @@ use MultiTheftAuto\Sdk\Model\Resource;
 
 class Translator
 {
-    public static function fromServer(array $dataFromServer): array
+    public static function fromServer(string $dataFromServer): array
     {
+        $dataFromServer = json_decode($dataFromServer, true);
         foreach ($dataFromServer as &$value) {
             Translator::stringValuesToObjects($value);
         }

@@ -86,14 +86,12 @@ class Mta
             return null;
         }
 
-        $inputArray = json_decode($input, true);
-        return Translator::fromServer($inputArray)?? null;
+        return Translator::fromServer($input)?? null;
     }
 
     public static function doReturn(...$arguments): void
     {
-        $arguments = Translator::toServer($arguments);
-        echo json_encode($arguments);
+        echo Translator::toServer($arguments);
     }
 
     public function callFunction(string $resourceName, string $function, array $arguments = null)
@@ -101,7 +99,7 @@ class Mta
         $json_output = $arguments? Translator::toServer($arguments) : '';
         $path = sprintf('/%s/call/%s', $resourceName, $function);
         $result = $this->do_post_request($path, $json_output);
-        $out = Translator::fromServer(json_decode($result, true));
+        $out = Translator::fromServer($result);
 
         return $out?? false;
     }
@@ -111,12 +109,12 @@ class Mta
         $request = RequestFactory::useMessageFactory($this->messageFactory);
         $request->setMethod('POST');
         $request->setUri(sprintf('%s/%s', $this->server->getBaseUri(), $path));
-        $request->setBody($json_data);
+        $request->withBody($json_data);
         $request->authenticate($this->credential);
 
         $response = $this->httpClient->sendRequest($request->build());
         HttpStatusVerification::validateStatus($response);
 
-        return $response->getBody();
+        return $response->getBody()->getContents();
     }
 }

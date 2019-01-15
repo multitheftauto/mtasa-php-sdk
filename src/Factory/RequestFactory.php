@@ -72,7 +72,7 @@ class RequestFactory
         $this->credential = $credential;
     }
 
-    public function setBody(string $body): void
+    public function withBody(string $body): void
     {
         $this->body = $body;
     }

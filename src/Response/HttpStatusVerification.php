@@ -34,7 +34,7 @@ class HttpStatusVerification
         }
 
         if ($statusCode != 200) {
-            throw new Exception(sprintf('Something went wrong. HTTP Status Code: %s | Body: %s', $statusCode, $response->getBody()));
+            throw new Exception(sprintf('Something went wrong. HTTP Status Code: %s | Body: %s', $statusCode, $response->getBody()->getContents()));
         }
     }
 }
