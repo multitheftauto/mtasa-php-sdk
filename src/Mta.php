@@ -15,18 +15,20 @@ declare(strict_types=1);
 
 namespace MultiTheftAuto\Sdk;
 
+use GuzzleHttp\Psr7\Stream;
 use Http\Client\HttpClient;
 use Http\Discovery\HttpClientDiscovery;
 use Http\Discovery\MessageFactoryDiscovery;
 use Http\Message\MessageFactory;
 use MultiTheftAuto\Sdk\Authentication\Credential;
-use MultiTheftAuto\Sdk\Factory\RequestFactory;
 use MultiTheftAuto\Sdk\Model\Resource;
 use MultiTheftAuto\Sdk\Model\Resources;
 use MultiTheftAuto\Sdk\Model\Server;
+use MultiTheftAuto\Sdk\Response\HandleResponse;
 use MultiTheftAuto\Sdk\Response\HttpStatusVerification;
 use MultiTheftAuto\Sdk\Utils\Input;
 use MultiTheftAuto\Sdk\Utils\Translator;
+use Http\Message\Authentication\BasicAuth;
 
 class Mta
 {
@@ -102,15 +104,13 @@ class Mta
 
     protected function do_post_request($path, $json_data): string
     {
-        $request = RequestFactory::useMessageFactory($this->messageFactory);
-        $request->setMethod('POST');
-        $request->setUri(sprintf('%s/%s', $this->server->getBaseUri(), $path));
-        $request->withBody($json_data);
-        $request->authenticate($this->credential);
+        $request = $this->messageFactory->createRequest('POST', sprintf('%s/%s', $this->server->getBaseUri(), $path), [], $json_data);
+        $auth = new BasicAuth($this->credential->getUser(), $this->credential->getPassword());
+        $auth->authenticate($request);
 
-        $response = $this->httpClient->sendRequest($request->build());
+        $response = $this->httpClient->sendRequest($request);
         HttpStatusVerification::validateStatus($response);
 
-        return $response->getBody()->getContents();
+        return HandleResponse::getBody($response);
     }
 }

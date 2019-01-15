@@ -15,6 +15,8 @@ declare(strict_types=1);
 
 namespace MultiTheftAuto\Sdk\Model;
 
+use InvalidArgumentException;
+
 class Server
 {
     /**
@@ -25,12 +27,15 @@ class Server
     /**
      * @var int
      */
-    protected $port;
+    protected $httpPort;
 
-    public function __construct(string $host, int $port)
+    public function __construct(string $host, int $httpPort)
     {
+        if (!filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+            throw new InvalidArgumentException('Invalid IP');
+        }
         $this->host = $host;
-        $this->port = $port;
+        $this->httpPort = $httpPort;
     }
 
     public function getHost(): string
@@ -40,11 +45,11 @@ class Server
 
     public function getPort(): int
     {
-        return $this->port;
+        return $this->httpPort;
     }
 
     public function getBaseUri(): string
     {
-        return sprintf('http://%s:%s', $this->host, $this->port);
+        return sprintf('http://%s:%s', $this->host, $this->httpPort);
     }
 }

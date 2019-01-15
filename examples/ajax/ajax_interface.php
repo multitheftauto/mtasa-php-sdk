@@ -1,7 +1,7 @@
 <?php
 
 use MultiTheftAuto\Sdk\Mta;
-use MultiTheftAuto\Sdk\Authentication\Credential;
+use MultiTheftAuto\Sdk\Authentication\CredentialTest;
 use MultiTheftAuto\Sdk\Model\Server;
 
 // =============================
@@ -27,7 +27,7 @@ try {
 	}
 
 	$server = new Server($host, $port);
-	$credential = new Credential($http_username, $http_password);
+	$credential = new CredentialTest($http_username, $http_password);
     $mta = new Mta($server, $credential);
 
 	$val = explode(",", $val);

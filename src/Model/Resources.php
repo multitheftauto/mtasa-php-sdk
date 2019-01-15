@@ -28,11 +28,12 @@ class Resources
             return $resource->getName() == $name;
         });
 
-        return current($found)?? null;
+        $resource = current($found);
+        return $resource? $resource : null;
     }
 
     public function add(Resource $resource): void
     {
-        $resources[] = $resource;
+        $this->resources[] = $resource;
     }
 }

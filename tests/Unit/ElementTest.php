@@ -4,7 +4,7 @@
  *
  *  PROJECT:     MTA PHP SDK
  *  LICENSE:     See LICENSE in the top level directory
- *  FILE:        Element.php
+ *  FILE:        ElementTest.php
  *  VERSION:     1.0.0
  *
  *  Multi Theft Auto is available from http://www.multitheftauto.com/
@@ -15,22 +15,19 @@ declare(strict_types=1);
 
 namespace MultiTheftAuto\Sdk\Model;
 
-class Element
+use PHPUnit\Framework\TestCase;
+
+class ElementTest extends TestCase
 {
-    protected $id;
-
-    public function __construct(string $id)
+    public function testItReturnsElementId(): void
     {
-        $this->id = $id;
+        $element = new Element('someId');
+        $this->assertEquals('someId', $element->getId());
     }
 
-    public function getId(): string
+    public function testItReturnsElementIdWithPrefixForServer(): void
     {
-        return $this->id;
-    }
-
-    public function __toString()
-    {
-        return '^E^' . $this->id;
+        $element = new Element('someId');
+        $this->assertEquals('^E^someId', (string) $element);
     }
 }
