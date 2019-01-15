@@ -15,11 +15,11 @@ declare(strict_types=1);
 
 namespace MultiTheftAuto\Sdk\Utils;
 
-class Input
+abstract class Input
 {
     public static function get(): ?string
     {
         $input = file_get_contents('php://input');
-        return $input?? null;
+        return $input? $input : null;
     }
 }

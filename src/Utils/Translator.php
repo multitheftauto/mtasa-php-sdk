@@ -18,13 +18,15 @@ namespace MultiTheftAuto\Sdk\Utils;
 use MultiTheftAuto\Sdk\Model\Element;
 use MultiTheftAuto\Sdk\Model\Resource;
 
-class Translator
+abstract class Translator
 {
-    public static function fromServer(string $dataFromServer): array
+    public static function fromServer(?string $dataFromServer): ?array
     {
-        $dataFromServer = json_decode($dataFromServer, true);
-        foreach ($dataFromServer as &$value) {
-            Translator::stringValuesToObjects($value);
+        if (!empty($dataFromServer)) {
+            $dataFromServer = json_decode($dataFromServer, true);
+            foreach ($dataFromServer as &$value) {
+                Translator::stringValuesToObjects($value);
+            }
         }
 
         return $dataFromServer;
