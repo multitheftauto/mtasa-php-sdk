@@ -26,6 +26,7 @@ use MultiTheftAuto\Sdk\Model\Element;
 use MultiTheftAuto\Sdk\Model\Resource;
 use MultiTheftAuto\Sdk\Model\Resources;
 use MultiTheftAuto\Sdk\Model\Server;
+use MultiTheftAuto\Sdk\Utils\Translator;
 
 class Mta
 {
@@ -83,53 +84,23 @@ class Mta
         }
 
         $inputArray = json_decode($input, true);
-        return Mta::convertToObjects($inputArray)?? false;
+        return Translator::fromServer($inputArray)?? false;
     }
 
     public static function doReturn(...$arguments)
     {
-        $arguments = Mta::convertFromObjects($arguments);
+        $arguments = Translator::toServer($arguments);
         echo json_encode($arguments);
     }
 
     public function callFunction(string $resourceName, string $function, array $arguments = null)
     {
-        $json_output = $arguments? Mta::convertFromObjects(json_encode($arguments)) : '';
+        $json_output = $arguments? json_encode(Translator::toServer($arguments)) : '';
         $path = sprintf('/%s/call/%s', $resourceName, $function);
         $result = $this->do_post_request($path, $json_output);
-        $out = Mta::convertToObjects(json_decode($result, true));
+        $out = Translator::fromServer(json_decode($result, true));
 
         return $out?? false;
-    }
-
-    public static function convertToObjects($item)
-    {
-        if (is_array($item)) {
-            foreach ($item as &$value) {
-                $value = Mta::convertToObjects($value);
-            }
-        } elseif (is_string($item)) {
-            if (substr($item, 0, 3) == '^E^') {
-                $item = new Element(substr($item, 3));
-            } elseif (substr($item, 0, 3) == '^R^') {
-                $item = new Resource(substr($item, 3));
-            }
-        } else {
-            throw new InvalidArgumentException('Bad argument at convertToObjects');
-        }
-
-        return $item;
-    }
-
-    public static function convertFromObjects($item)
-    {
-        if (is_array($item)) {
-            foreach ($item as &$value) {
-                $value = Mta::convertFromObjects($value);
-            }
-        }
-
-        return (string) $item;
     }
 
     public function do_post_request($path, $json_data)
