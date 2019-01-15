@@ -15,18 +15,17 @@ declare(strict_types=1);
 
 namespace MultiTheftAuto\Sdk;
 
-use Exception;
 use Http\Client\HttpClient;
 use Http\Discovery\HttpClientDiscovery;
 use Http\Discovery\MessageFactoryDiscovery;
 use Http\Message\MessageFactory;
-use InvalidArgumentException;
 use MultiTheftAuto\Sdk\Authentication\Credential;
-use MultiTheftAuto\Sdk\Model\Element;
 use MultiTheftAuto\Sdk\Model\Resource;
 use MultiTheftAuto\Sdk\Model\Resources;
 use MultiTheftAuto\Sdk\Model\Server;
+use MultiTheftAuto\Sdk\Response\HttpStatusVerification;
 use MultiTheftAuto\Sdk\Utils\Translator;
+use MultiTheftAuto\Sdk\Factory\RequestFactory;
 
 class Mta
 {
@@ -53,15 +52,15 @@ class Mta
     /**
      * @var MessageFactory
      */
-    protected $requestFactory;
+    protected $messageFactory;
 
-    public function __construct(Server $server, Credential $credential, HttpClient $httpClient = null, MessageFactory $requestFactory = null)
+    public function __construct(Server $server, Credential $credential, HttpClient $httpClient = null, MessageFactory $messageFactory = null)
     {
         $this->server = $server;
         $this->credential = $credential;
         $this->resources = new Resources();
         $this->httpClient = $httpClient?? HttpClientDiscovery::find();
-        $this->requestFactory = $requestFactory?? MessageFactoryDiscovery::find();
+        $this->messageFactory = $messageFactory?? MessageFactoryDiscovery::find();
     }
 
     public function getResource(string $resourceName)
@@ -76,18 +75,18 @@ class Mta
         return $resource;
     }
 
-    public static function getInput()
+    public static function getInput(): ?array
     {
         $input = file_get_contents('php://input');
         if (!$input) {
-            return false;
+            return null;
         }
 
         $inputArray = json_decode($input, true);
-        return Translator::fromServer($inputArray)?? false;
+        return Translator::fromServer($inputArray)?? null;
     }
 
-    public static function doReturn(...$arguments)
+    public static function doReturn(...$arguments): void
     {
         $arguments = Translator::toServer($arguments);
         echo json_encode($arguments);
@@ -103,35 +102,17 @@ class Mta
         return $out?? false;
     }
 
-    public function do_post_request($path, $json_data)
+    protected function do_post_request($path, $json_data)
     {
-        $request = $this->requestFactory->createRequest(
-            'POST',
-            sprintf('%s/%s', $this->server->getBaseUri(), $path),
-            [
-                'Content-type' => 'text/json; charset=UTF8',
-                'auth' => [$this->credential->getUser(), $this->credential->getPassword()],
-            ],
-            $json_data
-        );
+        $request = RequestFactory::useMessageFactory($this->messageFactory);
+        $request->setMethod('POST');
+        $request->setUri(sprintf('%s/%s', $this->server->getBaseUri(), $path));
+        $request->setBody($json_data);
+        $request->authenticate($this->credential);
 
-        $response = $this->httpClient->sendRequest($request);
-        $statusCode = $response->getStatusCode();
+        $response = $this->httpClient->sendRequest($request->build());
+        HttpStatusVerification::validateStatus($response);
 
-        if ($statusCode == 200) {
-            return (string) $response->getBody();
-        }
-
-        switch ($statusCode) {
-            case 401:
-                throw new Exception('Access Denied. This server requires authentication. Please ensure that a valid username and password combination is provided.');
-                break;
-
-            case 404:
-                throw new Exception('There was a problem with the request. Ensure that the resource exists and that the name is spelled correctly.');
-                break;
-        }
-
-        return $response;
+        return $response->getBody();
     }
 }
