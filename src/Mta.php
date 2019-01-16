@@ -63,9 +63,10 @@ class Mta
     ) {
         $this->server = $server;
         $this->credential = $credential;
-        $this->resources = new Resources();
         $this->httpClient = $httpClient?? HttpClientDiscovery::find();
         $this->messageFactory = $messageFactory?? MessageFactoryDiscovery::find();
+
+        $this->resources = new Resources();
     }
 
     public function getResource(string $resourceName): MtaResource

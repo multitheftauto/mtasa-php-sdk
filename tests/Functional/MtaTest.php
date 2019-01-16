@@ -54,7 +54,8 @@ class MtaTest extends TestCase
     {
         $server = $this->createMock(Server::class);
         $credential = $this->createMock(Credential::class);
-        $mta = new Mta($server, $credential);
+        $client = new Client();
+        $mta = new Mta($server, $credential, $client);
 
         $this->assertInstanceOf(Resource::class, $mta->getResource('someResource'));
     }
