@@ -49,4 +49,13 @@ class MtaTest extends TestCase
         Mta::doReturn('someValue1', 'someValue2');
         $this->expectOutputString('["someValue1","someValue2"]');
     }
+
+    public function testItReturnResource()
+    {
+        $server = $this->createMock(Server::class);
+        $credential = $this->createMock(Credential::class);
+        $mta = new Mta($server, $credential);
+
+        $this->assertInstanceOf(Resource::class, $mta->getResource('someResource'));
+    }
 }

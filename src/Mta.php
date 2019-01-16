@@ -72,7 +72,7 @@ class Mta
     {
         $resource = $this->resources->findByName($resourceName);
 
-        if (!$resource) {
+        if (empty($resource)) {
             $resource = new MtaResource($resourceName, $this);
             $this->resources->add($resource);
         }
