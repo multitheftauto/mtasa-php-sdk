@@ -27,12 +27,12 @@ class Resource
     /**
      * @var Mta|null
      */
-    private $server;
+    private $mta;
 
-    public function __construct(string $name, Mta $server = null)
+    public function __construct(string $name, Mta $mta = null)
     {
         $this->name = $name;
-        $this->server = $server;
+        $this->mta = $mta;
     }
 
     public function getName()
@@ -42,11 +42,11 @@ class Resource
 
     public function call($function, ...$arguments)
     {
-        if (!$this->server) {
-            throw new Exception(sprintf('Resource %s can not be called because server is not defined', $this->name));
+        if (!$this->mta) {
+            throw new Exception(sprintf('Resource %s can not be called because Mta manager is not defined', $this->name));
         }
 
-        return $this->server->callFunction($this->name, $function, $arguments);
+        return $this->mta->callFunction($this->name, $function, $arguments);
     }
 
     public function __toString()
