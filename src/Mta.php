@@ -94,7 +94,7 @@ class Mta
     public function callFunction(string $resourceName, string $function, array $arguments = null): ?array
     {
         $json_output = $arguments? Translator::toServer($arguments) : '';
-        $path = sprintf('/%s/call/%s', $resourceName, $function);
+        $path = sprintf('%s/call/%s', $resourceName, $function);
         $result = $this->do_post_request($path, $json_output);
         $out = Translator::fromServer($result);
 
