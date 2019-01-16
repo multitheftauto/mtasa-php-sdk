@@ -5,9 +5,7 @@ before_script:
   - php composer.phar install
 
 script:
-  - php vendor/bin/phpunit tests
-  - php vendor/bin/php-cs-fixer fix --dry-run --config .php_cs.dist -v
-  - php vendor/bin/phpstan analyse
+  - php composer.phar test
 
 php:
   - 7.1

@@ -30,14 +30,14 @@
         }
     },
     "scripts": {
-        "lint": "php-cs-fixer fix --verbose --show-progress=estimating",
-        "lint:check": [
+        "fixer": "php-cs-fixer fix --verbose --show-progress=estimating",
+        "fixer:check": [
             "php-cs-fixer fix --dry-run --verbose --show-progress=estimating"
         ],
         "phpunit": "phpunit tests",
         "phpstan": "phpstan analyse",
         "test": [
-            "@lint:check",
+            "@fixer:check",
             "@phpunit",
             "@phpstan"
         ]

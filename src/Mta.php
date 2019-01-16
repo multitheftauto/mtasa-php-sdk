@@ -19,6 +19,7 @@ use GuzzleHttp\Psr7\Stream;
 use Http\Client\HttpClient;
 use Http\Discovery\HttpClientDiscovery;
 use Http\Discovery\MessageFactoryDiscovery;
+use Http\Message\Authentication\BasicAuth;
 use Http\Message\MessageFactory;
 use MultiTheftAuto\Sdk\Authentication\Credential;
 use MultiTheftAuto\Sdk\Model\Resource;
@@ -28,7 +29,6 @@ use MultiTheftAuto\Sdk\Response\HandleResponse;
 use MultiTheftAuto\Sdk\Response\HttpStatusVerification;
 use MultiTheftAuto\Sdk\Utils\Input;
 use MultiTheftAuto\Sdk\Utils\Translator;
-use Http\Message\Authentication\BasicAuth;
 
 class Mta
 {

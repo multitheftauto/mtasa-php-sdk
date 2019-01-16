@@ -15,9 +15,9 @@ declare(strict_types=1);
 
 namespace MultiTheftAuto\Sdk\Utils;
 
-use PHPUnit\Framework\TestCase;
-use MultiTheftAuto\Sdk\Model\Resource;
 use MultiTheftAuto\Sdk\Model\Element;
+use MultiTheftAuto\Sdk\Model\Resource;
+use PHPUnit\Framework\TestCase;
 
 class TranslatorTest extends TestCase
 {

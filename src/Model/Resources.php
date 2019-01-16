@@ -15,16 +15,18 @@ declare(strict_types=1);
 
 namespace MultiTheftAuto\Sdk\Model;
 
+use MultiTheftAuto\Sdk\Model\Resource as MtaResource;
+
 class Resources
 {
     /**
-     * @var Resource[]
+     * @var MtaResource[]
      */
     protected $resources = [];
 
-    public function findByName(string $name): ?Resource
+    public function findByName(string $name): ?MtaResource
     {
-        $found = array_filter($this->resources, function(Resource $resource) use ($name) {
+        $found = array_filter($this->resources, function(MtaResource $resource) use ($name) {
             return $resource->getName() == $name;
         });
 
@@ -32,7 +34,7 @@ class Resources
         return $resource? $resource : null;
     }
 
-    public function add(Resource $resource): void
+    public function add(MtaResource $resource): void
     {
         $this->resources[] = $resource;
     }

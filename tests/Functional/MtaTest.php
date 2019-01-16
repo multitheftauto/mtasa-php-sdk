@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace MultiTheftAuto\Sdk;
 
+use Http\Mock\Client;
+use MultiTheftAuto\Sdk\Authentication\Credential;
 use MultiTheftAuto\Sdk\Model\Element;
 use MultiTheftAuto\Sdk\Model\Resource;
-use PHPUnit\Framework\TestCase;
-use Http\Mock\Client;
-use Psr\Http\Message\ResponseInterface;
 use MultiTheftAuto\Sdk\Model\Server;
-use MultiTheftAuto\Sdk\Authentication\Credential;
+use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
 
 class MtaTest extends TestCase
 {
