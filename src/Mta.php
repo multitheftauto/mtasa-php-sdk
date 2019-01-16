@@ -5,7 +5,6 @@
  *  PROJECT:     MTA PHP SDK
  *  LICENSE:     See LICENSE in the top level directory
  *  FILE:        mta.php
- *  VERSION:     1.0.0
  *
  *  Multi Theft Auto is available from http://www.multitheftauto.com/
  *
@@ -15,14 +14,13 @@ declare(strict_types=1);
 
 namespace MultiTheftAuto\Sdk;
 
-use GuzzleHttp\Psr7\Stream;
 use Http\Client\HttpClient;
 use Http\Discovery\HttpClientDiscovery;
 use Http\Discovery\MessageFactoryDiscovery;
 use Http\Message\Authentication\BasicAuth;
 use Http\Message\MessageFactory;
 use MultiTheftAuto\Sdk\Authentication\Credential;
-use MultiTheftAuto\Sdk\Model\Resource;
+use MultiTheftAuto\Sdk\Model\Resource as MtaResource;
 use MultiTheftAuto\Sdk\Model\Resources;
 use MultiTheftAuto\Sdk\Model\Server;
 use MultiTheftAuto\Sdk\Response\HandleResponse;
@@ -70,12 +68,12 @@ class Mta
         $this->messageFactory = $messageFactory?? MessageFactoryDiscovery::find();
     }
 
-    public function getResource(string $resourceName): Resource
+    public function getResource(string $resourceName): MtaResource
     {
         $resource = $this->resources->findByName($resourceName);
 
         if (!$resource) {
-            $resource = new Resource($resourceName, $this);
+            $resource = new MtaResource($resourceName, $this);
             $this->resources->add($resource);
         }
 
