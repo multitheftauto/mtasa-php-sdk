@@ -105,7 +105,7 @@ class Mta
     {
         $request = $this->messageFactory->createRequest('POST', sprintf('%s/%s', $this->server->getBaseUri(), $path), [], $json_data);
         $auth = new BasicAuth($this->credential->getUser(), $this->credential->getPassword());
-        $auth->authenticate($request);
+        $request = $auth->authenticate($request);
 
         $response = $this->httpClient->sendRequest($request);
         HttpStatusVerification::validateStatus($response);
