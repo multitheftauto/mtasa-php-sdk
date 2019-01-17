@@ -40,5 +40,7 @@ $credential = new Credential('myUser', 'myPassword');
 $mta = new Mta($server, $credential);
 
 $response = $mta->getResource('someResource')->call('callableFunction');
+//or
+$response = $mta->getResource('someResource')->callableFunction();
 var_dump($response);
 ```

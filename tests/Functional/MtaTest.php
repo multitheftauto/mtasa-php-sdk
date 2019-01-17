@@ -44,6 +44,26 @@ class MtaTest extends TestCase
         $this->assertEquals('someElementId', $return[2]->getId());
     }
 
+    public function testItReturnsResponseUsingDirectCall(): void
+    {
+        $client = new Client();
+        $response = $this->createMock(ResponseInterface::class);
+        $response->method('getBody')->willReturn('["^R^someResource","someString","^E^someElementId"]');
+        $response->method('getStatusCode')->willReturn(200);
+        $client->addResponse($response);
+        $server = new Server('127.0.0.1', 22005);
+        $credential = new Credential('someUser', 'somePassword');
+
+        $mta = new Mta($server, $credential, $client);
+        $return = $mta->getResource('someCallableResource')->someCallableFunction();
+
+        $this->assertInstanceOf(Resource::class, $return[0]);
+        $this->assertEquals('someResource', $return[0]->getName());
+        $this->assertEquals('someString', $return[1]);
+        $this->assertInstanceOf(Element::class, $return[2]);
+        $this->assertEquals('someElementId', $return[2]->getId());
+    }
+
     public function testItPrintsSomeJson()
     {
         Mta::doReturn('someValue1', 'someValue2');

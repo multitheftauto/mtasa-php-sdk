@@ -49,6 +49,11 @@ class Resource
         return $this->mta->callFunction($this->name, $function, $arguments);
     }
 
+    public function __call($name, $arguments)
+    {
+        return $this->call($name, $arguments);
+    }
+
     public function __toString()
     {
         return '^R^' . $this->name;
