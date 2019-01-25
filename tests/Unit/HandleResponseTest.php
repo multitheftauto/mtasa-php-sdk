@@ -30,10 +30,10 @@ class HandleResponseTest extends TestCase
 
     public function testItReturnsBodyFromStream(): void
     {
-        $response = $this->createMock(ResponseInterface::class);
-        $response->method('getBody')->willReturn('someBody');
         $stream = $this->createMock(StreamInterface::class);
         $stream->method('getContents')->willReturn('someBody');
+        $response = $this->createMock(ResponseInterface::class);
+        $response->method('getBody')->willReturn($stream);
         $this->assertEquals('someBody', HandleResponse::getBody($response));
     }
 }

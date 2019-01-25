@@ -81,6 +81,10 @@ class Mta
         return $resource;
     }
 
+
+    /**
+     * @codeCoverageIgnore
+     */
     public static function getInput(): ?array
     {
         return Translator::fromServer(Input::get())?? null;

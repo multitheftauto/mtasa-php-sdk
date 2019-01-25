@@ -16,6 +16,9 @@ namespace MultiTheftAuto\Sdk\Utils;
 
 abstract class Input
 {
+    /**
+     * @codeCoverageIgnore
+     */
     public static function get(): ?string
     {
         $input = file_get_contents('php://input');
