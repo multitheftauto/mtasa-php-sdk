@@ -81,7 +81,6 @@ class Mta
         return $resource;
     }
 
-
     /**
      * @codeCoverageIgnore
      */
@@ -103,6 +102,11 @@ class Mta
         $out = Translator::fromServer($result);
 
         return $out?? null;
+    }
+
+    public function __get($name)
+    {
+        return $this->getResource($name);
     }
 
     protected function do_post_request($path, $json_data): string

@@ -26,6 +26,7 @@ composer require multitheftauto/mtasa-php-sdk
 As this SDK use HTTPlug, you will have to require some libraries for get it working. See at [HTTPlug for library users](http://docs.php-http.org/en/latest/httplug/users.html). 
 ## A simple example
 
+You have multiple combinations for calling a mta server exported functions. Three ways are shown in example:
 ```php
 <?php
 
@@ -42,5 +43,8 @@ $mta = new Mta($server, $credential);
 $response = $mta->getResource('someResource')->call('callableFunction');
 //or
 $response = $mta->getResource('someResource')->callableFunction();
+//or also
+$response = $mta->someResource->callableFunction();
+
 var_dump($response);
 ```
