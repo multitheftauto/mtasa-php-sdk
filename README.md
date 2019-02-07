@@ -40,11 +40,11 @@ $server = new Server('127.0.0.1', 22005);
 $credential = new Credential('myUser', 'myPassword');
 $mta = new Mta($server, $credential);
 
-$response = $mta->getResource('someResource')->call('callableFunction');
+$response = $mta->getResource('someResource')->call('callableFunction', $arg1, $arg2, $arg3, ...);
 //or
-$response = $mta->getResource('someResource')->callableFunction();
+$response = $mta->getResource('someResource')->callableFunction($arg1, $arg2, $arg3, ...);
 //or also
-$response = $mta->someResource->callableFunction();
+$response = $mta->someResource->callableFunction($arg1, $arg2, $arg3, ...);
 
 var_dump($response);
 ```
