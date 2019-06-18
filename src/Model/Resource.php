@@ -51,7 +51,8 @@ class Resource
 
     public function __call($name, $arguments)
     {
-        return $this->call($name, $arguments);
+        array_unshift($arguments, $name);
+        return call_user_func_array([$this, 'call'], $arguments);
     }
 
     public function __toString()
