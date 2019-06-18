@@ -19,8 +19,14 @@ use Psr\Http\Message\ResponseInterface;
 
 class HttpStatusVerification
 {
+    protected const ERROR_NOT_FOUND = 'error: not found';
+
     public static function validateStatus(ResponseInterface $response): void
     {
+        if (HandleResponse::getBody($response) == self::ERROR_NOT_FOUND) {
+            throw new Exception('Attempted function call was not found');
+        }
+
         $statusCode = $response->getStatusCode();
 
         switch ($statusCode) {
