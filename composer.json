@@ -40,7 +40,7 @@
         "phpunit": "phpunit tests",
         "phpstan": "phpstan analyse",
         "test": [
-            "@fixer:check",
+            "@lint:check",
             "@phpunit",
             "@phpstan"
         ]
