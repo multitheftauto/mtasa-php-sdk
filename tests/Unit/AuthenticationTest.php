@@ -12,15 +12,15 @@
 
 declare(strict_types=1);
 
-namespace MultiTheftAuto\Sdk\Authentication;
+namespace MultiTheftAuto\Sdk\Model;
 
 use PHPUnit\Framework\TestCase;
 
-class CredentialTest extends TestCase
+class AuthenticationTest extends TestCase
 {
     public function testItCreatesValidCredential(): void
     {
-        $credential = new Credential('someUser', 'somePassword');
+        $credential = new Authentication('someUser', 'somePassword');
         $this->assertEquals('someUser', $credential->getUser());
         $this->assertEquals('somePassword', $credential->getPassword());
     }

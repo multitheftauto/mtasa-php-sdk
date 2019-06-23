@@ -14,13 +14,27 @@ declare(strict_types=1);
 
 namespace MultiTheftAuto\Sdk\Model;
 
-class Element
+use JsonSerializable;
+
+class Element implements JsonSerializable
 {
+    /**
+     * @var string
+     */
     protected $id;
+
+    public const SERVER_PREFIX = '^E^';
 
     public function __construct(string $id)
     {
         $this->id = $id;
+    }
+
+    public static function fromServer(string $value): self
+    {
+        $id = substr($value, 3);
+
+        return new static($id);
     }
 
     public function getId(): string
@@ -28,8 +42,8 @@ class Element
         return $this->id;
     }
 
-    public function __toString()
+    public function jsonSerialize(): string
     {
-        return '^E^' . $this->id;
+        return self::SERVER_PREFIX . $this->id;
     }
 }

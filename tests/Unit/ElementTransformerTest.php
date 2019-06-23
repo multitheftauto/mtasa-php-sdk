@@ -18,12 +18,12 @@ use MultiTheftAuto\Sdk\Model\Element;
 use MultiTheftAuto\Sdk\Model\Resource;
 use PHPUnit\Framework\TestCase;
 
-class TranslatorTest extends TestCase
+class ElementTransformerTest extends TestCase
 {
     public function testItConvertsToObjects(): void
     {
         $input = '["^R^someResource","someString","^E^someElementId"]';
-        $input = Translator::fromServer($input);
+        $input = ElementTransformer::fromServer($input);
 
         $this->assertInstanceOf(Resource::class, $input[0]);
         $this->assertIsString($input[1]);
@@ -33,7 +33,7 @@ class TranslatorTest extends TestCase
     public function testItConvertsObjects2(): void
     {
         $input = '[["^R^someResource","^R^someResource2"],"someString","^E^someElementId"]';
-        $input = Translator::fromServer($input);
+        $input = ElementTransformer::fromServer($input);
 
         $this->assertContainsOnlyInstancesOf(Resource::class, $input[0]);
         $this->assertIsString($input[1]);
@@ -43,7 +43,7 @@ class TranslatorTest extends TestCase
     public function testItConvertsToServerFormat(): void
     {
         $array = [new Resource('someResource'), 'String', [new Element('someElement')], new Element('someElement2')];
-        $output = Translator::toServer($array);
+        $output = ElementTransformer::toServer($array);
         $this->assertEquals('["^R^someResource","String",["^E^someElement"],"^E^someElement2"]', $output);
     }
 }

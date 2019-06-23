@@ -15,9 +15,10 @@ declare(strict_types=1);
 namespace MultiTheftAuto\Sdk\Model;
 
 use Exception;
+use JsonSerializable;
 use MultiTheftAuto\Sdk\Mta;
 
-class Resource
+class Resource implements JsonSerializable
 {
     /**
      * @var string
@@ -29,10 +30,18 @@ class Resource
      */
     private $mta;
 
+    public const SERVER_PREFIX = '^R^';
+
     public function __construct(string $name, Mta $mta = null)
     {
         $this->name = $name;
         $this->mta = $mta;
+    }
+
+    public static function fromServer(string $value): self
+    {
+        $name = substr($value, 3);
+        return new static($name);
     }
 
     public function getName()
@@ -55,8 +64,8 @@ class Resource
         return call_user_func_array([$this, 'call'], $arguments);
     }
 
-    public function __toString()
+    public function jsonSerialize(): string
     {
-        return '^R^' . $this->name;
+        return self::SERVER_PREFIX . $this->name;
     }
 }

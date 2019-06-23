@@ -14,17 +14,16 @@ declare(strict_types=1);
 
 namespace MultiTheftAuto\Sdk\Utils;
 
-use MultiTheftAuto\Sdk\Model\Element;
-use MultiTheftAuto\Sdk\Model\Resource;
+use RuntimeException;
 
-abstract class Translator
+abstract class ElementTransformer
 {
     public static function fromServer(?string $dataFromServer): ?array
     {
         if (!empty($dataFromServer)) {
             $dataFromServer = json_decode($dataFromServer, true);
             foreach ($dataFromServer as &$value) {
-                Translator::stringValuesToObjects($value);
+                ElementTransformer::stringValuesToObjects($value);
             }
         }
 
@@ -33,37 +32,23 @@ abstract class Translator
 
     public static function toServer(array $inputData): string
     {
-        foreach ($inputData as &$value) {
-            Translator::objectValuesToString($value);
+        $output = json_encode($inputData);
+
+        if (!$output) {
+            throw new RuntimeException('There was an error trying to encode your request data');
         }
 
-        return (string) json_encode($inputData);
+        return $output;
     }
 
     protected static function stringValuesToObjects(&$value): void
     {
         if (is_array($value)) {
             foreach ($value as &$subValue) {
-                Translator::stringValuesToObjects($subValue);
+                ElementTransformer::stringValuesToObjects($subValue);
             }
         } elseif (is_string($value)) {
-            $valuePrefix = substr($value, 0, 3);
-            if ($valuePrefix == '^E^') {
-                $value = new Element(substr($value, 3));
-            } elseif ($valuePrefix == '^R^') {
-                $value = new Resource(substr($value, 3));
-            }
-        }
-    }
-
-    protected static function objectValuesToString(&$value): void
-    {
-        if (is_array($value)) {
-            foreach ($value as &$subValue) {
-                Translator::objectValuesToString($subValue);
-            }
-        } else {
-            $value = (string) $value;
+            $value = ElementFactory::fromServer($value);
         }
     }
 }

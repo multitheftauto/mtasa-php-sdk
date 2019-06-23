@@ -33,6 +33,7 @@ class Server
         if (!filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
             throw new InvalidArgumentException('Invalid IP');
         }
+
         $this->host = $host;
         $this->httpPort = $httpPort;
     }

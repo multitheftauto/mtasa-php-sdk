@@ -1,7 +1,7 @@
 <?php
 
 use MultiTheftAuto\Sdk\Mta;
-use MultiTheftAuto\Sdk\Authentication\CredentialTest;
+use MultiTheftAuto\Sdk\Model\Authentication;
 use MultiTheftAuto\Sdk\Model\Server;
 
 // =============================
@@ -27,8 +27,8 @@ try {
 	}
 
 	$server = new Server($host, $port);
-	$credential = new CredentialTest($http_username, $http_password);
-    $mta = new Mta($server, $credential);
+	$auth = new Authentication($http_username, $http_password);
+	$mta = new Mta($server, $auth);
 
 	$val = explode(",", $val);
 	$json_data = json_encode($val);

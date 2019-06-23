@@ -12,9 +12,9 @@
 
 declare(strict_types=1);
 
-namespace MultiTheftAuto\Sdk\Authentication;
+namespace MultiTheftAuto\Sdk\Model;
 
-class Credential
+class Authentication
 {
     /**
      * @var string

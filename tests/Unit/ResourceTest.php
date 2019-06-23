@@ -28,7 +28,9 @@ class ResourceTest extends TestCase
     public function testItReturnsResourceNameForServer(): void
     {
         $resource = new Resource('someName');
-        $this->assertEquals('^R^someName', (string) $resource);
+        $json = json_encode([$resource]);
+
+        $this->assertJsonStringEqualsJsonString('["^R^someName"]', $json);
     }
 
     public function testItThrowsExceptionIfMtaInstanceNotPassed(): void

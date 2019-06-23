@@ -27,6 +27,8 @@ class ElementTest extends TestCase
     public function testItReturnsElementIdWithPrefixForServer(): void
     {
         $element = new Element('someId');
-        $this->assertEquals('^E^someId', (string) $element);
+        $json = json_encode([$element]);
+
+        $this->assertJsonStringEqualsJsonString('["^E^someId"]', $json);
     }
 }

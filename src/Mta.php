@@ -14,19 +14,21 @@ declare(strict_types=1);
 
 namespace MultiTheftAuto\Sdk;
 
+use GuzzleHttp\Psr7\Stream;
 use Http\Client\HttpClient;
 use Http\Discovery\HttpClientDiscovery;
-use Http\Discovery\MessageFactoryDiscovery;
+use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Message\Authentication\BasicAuth;
-use Http\Message\MessageFactory;
-use MultiTheftAuto\Sdk\Authentication\Credential;
+use MultiTheftAuto\Sdk\Model\Authentication;
 use MultiTheftAuto\Sdk\Model\Resource as MtaResource;
 use MultiTheftAuto\Sdk\Model\Resources;
 use MultiTheftAuto\Sdk\Model\Server;
 use MultiTheftAuto\Sdk\Response\HandleResponse;
 use MultiTheftAuto\Sdk\Response\HttpStatusVerification;
+use MultiTheftAuto\Sdk\Utils\ElementTransformer;
 use MultiTheftAuto\Sdk\Utils\Input;
-use MultiTheftAuto\Sdk\Utils\Translator;
+use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 
 class Mta
 {
@@ -36,9 +38,9 @@ class Mta
     protected $server;
 
     /**
-     * @var Credential
+     * @var Authentication
      */
-    protected $credential;
+    protected $auth;
 
     /**
      * @var Resources
@@ -51,20 +53,27 @@ class Mta
     protected $httpClient;
 
     /**
-     * @var MessageFactory
+     * @var RequestFactoryInterface
      */
-    protected $messageFactory;
+    protected $requestFactory;
+
+    /**
+     * @var StreamFactoryInterface
+     */
+    protected $streamFactory;
 
     public function __construct(
         Server $server,
-        Credential $credential,
+        Authentication $auth,
         HttpClient $httpClient = null,
-        MessageFactory $messageFactory = null
+        RequestFactoryInterface $requestFactory = null,
+        StreamFactoryInterface $streamFactory = null
     ) {
         $this->server = $server;
-        $this->credential = $credential;
-        $this->httpClient = $httpClient?? HttpClientDiscovery::find();
-        $this->messageFactory = $messageFactory?? MessageFactoryDiscovery::find();
+        $this->auth = $auth;
+        $this->httpClient = $httpClient ?? HttpClientDiscovery::find();
+        $this->requestFactory = $requestFactory ?? Psr17FactoryDiscovery::findRequestFactory();
+        $this->streamFactory = $streamFactory ?? Psr17FactoryDiscovery::findStreamFactory();
 
         $this->resources = new Resources();
     }
@@ -86,33 +95,41 @@ class Mta
      */
     public static function getInput(): ?array
     {
-        return Translator::fromServer(Input::get())?? null;
+        return ElementTransformer::fromServer(Input::get()) ?? null;
     }
 
     public static function doReturn(...$arguments): void
     {
-        echo Translator::toServer($arguments);
+        echo ElementTransformer::toServer($arguments);
     }
 
-    public function callFunction(string $resourceName, string $function, array $arguments = null): ?array
+    public function callFunction(string $resourceName, string $functionName, array $arguments = null): ?array
     {
-        $json_output = $arguments? Translator::toServer($arguments) : '';
-        $path = sprintf('%s/call/%s', $resourceName, $function);
-        $result = $this->do_post_request($path, $json_output);
-        $out = Translator::fromServer($result);
+        $requestData = $arguments ? ElementTransformer::toServer($arguments) : '';
+        $path = sprintf('%s/call/%s', $resourceName, $functionName);
 
-        return $out?? null;
+        $responseBody = $this->executeRequest($path, $requestData);
+        $convertedResponse = ElementTransformer::fromServer($responseBody);
+
+        return $convertedResponse ?? null;
     }
 
-    public function __get($name)
+    public function __get(string $name): MtaResource
     {
         return $this->getResource($name);
     }
 
-    protected function do_post_request($path, $json_data): string
+    protected function executeRequest(string $path, string $body): string
     {
-        $request = $this->messageFactory->createRequest('POST', sprintf('%s/%s', $this->server->getBaseUri(), $path), [], $json_data);
-        $auth = new BasicAuth($this->credential->getUser(), $this->credential->getPassword());
+        $request = $this->requestFactory->createRequest(
+            'POST',
+            sprintf('%s/%s', $this->server->getBaseUri(), $path)
+        );
+
+        $streamBody = $this->streamFactory->createStream($body);
+        $request->withBody($streamBody);
+
+        $auth = new BasicAuth($this->auth->getUser(), $this->auth->getPassword());
         $request = $auth->authenticate($request);
 
         $response = $this->httpClient->sendRequest($request);

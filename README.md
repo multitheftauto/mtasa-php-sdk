@@ -34,11 +34,11 @@ require_once('vendor/autoload.php');
 
 use MultiTheftAuto\Sdk\Mta;
 use MultiTheftAuto\Sdk\Model\Server;
-use MultiTheftAuto\Sdk\Authentication\Credential;
+use MultiTheftAuto\Sdk\Model\Authentication;
 
 $server = new Server('127.0.0.1', 22005);
-$credential = new Credential('myUser', 'myPassword');
-$mta = new Mta($server, $credential);
+$auth = new Authentication('myUser', 'myPassword');
+$mta = new Mta($server, $auth);
 
 $response = $mta->getResource('someResource')->call('callableFunction', $arg1, $arg2, $arg3, ...);
 //or

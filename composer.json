@@ -8,13 +8,16 @@
     "require": {
         "php": "^7.1",
         "ext-json": "^1.5",
+        "php-http/client-implementation": "^1.0",
         "php-http/httplug": "^2.0",
-        "php-http/client-implementation": "^1.0"
+        "psr/http-factory": "^1.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.13",
         "guzzlehttp/psr7": "^1.5",
+        "http-interop/http-factory-guzzle": "^1.0",
         "php-http/mock-client": "^1.1",
+        "phpspec/prophecy": "~1.0",
         "phpstan/phpstan": "^0.10.7",
         "phpunit/phpunit": "^7"
     },
@@ -30,8 +33,8 @@
         }
     },
     "scripts": {
-        "fixer": "php-cs-fixer fix --verbose --show-progress=estimating",
-        "fixer:check": [
+        "lint": "php-cs-fixer fix --verbose --show-progress=estimating",
+        "lint:check": [
             "php-cs-fixer fix --dry-run --verbose --show-progress=estimating"
         ],
         "phpunit": "phpunit tests",
