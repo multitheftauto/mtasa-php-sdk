@@ -17,7 +17,6 @@ namespace MultiTheftAuto\Sdk\Service;
 use Http\Message\Authentication\BasicAuth;
 use MultiTheftAuto\Sdk\Model\Authentication;
 use MultiTheftAuto\Sdk\Model\Server;
-use MultiTheftAuto\Sdk\Response\HandleResponse;
 use MultiTheftAuto\Sdk\Response\HttpStatusValidator;
 use MultiTheftAuto\Sdk\Transformer\ElementTransformer;
 use Psr\Http\Client\ClientInterface;
@@ -89,7 +88,7 @@ class MtaService
         $statusValidator = new HttpStatusValidator($response);
         $statusValidator->validate();
 
-        $responseBody = HandleResponse::getBody($response);
+        $responseBody = (string) $response->getBody();
 
         return  ElementTransformer::fromServer($responseBody) ?? null;
     }

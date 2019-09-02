@@ -55,7 +55,7 @@ class HttpStatusValidator
                 }
             case 200:
                 {
-                    if (HandleResponse::getBody($this->response) == self::ERROR_NOT_FOUND_BODY) {
+                    if ((string) $this->response->getBody() == self::ERROR_NOT_FOUND_BODY) {
                         throw new FunctionNotFoundException();
                     }
                     break;
@@ -66,7 +66,7 @@ class HttpStatusValidator
                         sprintf(
                             self::SOMETHING_WENT_WRONG,
                             $statusCode,
-                            HandleResponse::getBody($this->response)
+                            (string) $this->response->getBody()
                         )
                     );
                 }
