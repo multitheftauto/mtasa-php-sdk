@@ -24,7 +24,7 @@ class ServerTest extends TestCase
         $server = new Server('127.0.0.1', 22005);
         $this->assertEquals('127.0.0.1', $server->getHost());
         $this->assertEquals(22005, $server->getPort());
-        $this->assertEquals('http://127.0.0.1:22005', $server->getBaseUri());
+        $this->assertEquals('127.0.0.1:22005', $server->getEndpoint());
     }
 
     public function testItThrowsErrorForInvalidIp(): void

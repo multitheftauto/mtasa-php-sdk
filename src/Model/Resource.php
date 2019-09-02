@@ -16,7 +16,7 @@ namespace MultiTheftAuto\Sdk\Model;
 
 use Exception;
 use JsonSerializable;
-use MultiTheftAuto\Sdk\Mta;
+use MultiTheftAuto\Sdk\Service\MtaService;
 
 class Resource implements JsonSerializable
 {
@@ -26,16 +26,17 @@ class Resource implements JsonSerializable
     private $name;
 
     /**
-     * @var Mta|null
+     * @var MtaService|null
      */
-    private $mta;
+    private $mtaService;
 
     public const SERVER_PREFIX = '^R^';
+    protected const UNDEFINED_SERVICE_EXCEPTION = 'Resource %s can not be called because Mta service is not defined';
 
-    public function __construct(string $name, Mta $mta = null)
+    public function __construct(string $name, MtaService $mtaService = null)
     {
         $this->name = $name;
-        $this->mta = $mta;
+        $this->mtaService = $mtaService;
     }
 
     public static function fromServer(string $value): self
@@ -49,16 +50,20 @@ class Resource implements JsonSerializable
         return $this->name;
     }
 
-    public function call($function, ...$arguments)
+    /**
+     * @throws \Http\Client\Exception
+     * @throws Exception
+     */
+    public function call(string $function, array ...$arguments)
     {
-        if (!$this->mta) {
-            throw new Exception(sprintf('Resource %s can not be called because Mta manager is not defined', $this->name));
+        if (!$this->mtaService) {
+            throw new Exception(sprintf(self::UNDEFINED_SERVICE_EXCEPTION, $this->name));
         }
 
-        return $this->mta->callFunction($this->name, $function, $arguments);
+        return $this->mtaService->callFunction($this->name, $function, $arguments);
     }
 
-    public function __call($name, $arguments)
+    public function __call(string $name, array $arguments)
     {
         array_unshift($arguments, $name);
         return call_user_func_array([$this, 'call'], $arguments);

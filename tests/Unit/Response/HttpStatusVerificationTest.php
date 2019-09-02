@@ -15,6 +15,9 @@ declare(strict_types=1);
 namespace MultiTheftAuto\Sdk\Response;
 
 use Exception;
+use MultiTheftAuto\Sdk\Exception\AccessDeniedException;
+use MultiTheftAuto\Sdk\Exception\FunctionNotFoundException;
+use MultiTheftAuto\Sdk\Exception\NotFoundStatusException;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 
@@ -22,8 +25,7 @@ class HttpStatusVerificationTest extends TestCase
 {
     public function testItThrowsExceptionForAccessDenied(): void
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Access Denied. This server requires authentication. Please ensure that a valid username and password combination is provided.');
+        $this->expectException(AccessDeniedException::class);
 
         $response = $this->prophesize(ResponseInterface::class);
         $response
@@ -34,14 +36,13 @@ class HttpStatusVerificationTest extends TestCase
             ->willReturn(401);
         $response = $response->reveal();
 
-        HttpStatusVerification::validateStatus($response);
+        $validator = new HttpStatusValidator($response);
+        $validator->validate();
     }
 
     public function testItThrowsExceptionForNotFoundPage(): void
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('There was a problem with the request. Ensure that the resource exists and that the name is spelled correctly.');
-
+        $this->expectException(NotFoundStatusException::class);
         $response = $this->prophesize(ResponseInterface::class);
         $response
             ->getBody()
@@ -51,7 +52,8 @@ class HttpStatusVerificationTest extends TestCase
             ->willReturn(404);
         $response = $response->reveal();
 
-        HttpStatusVerification::validateStatus($response);
+        $validator = new HttpStatusValidator($response);
+        $validator->validate();
     }
 
     public function testItThrowsExceptionForNotReturningSuccessfulCode(): void
@@ -68,13 +70,13 @@ class HttpStatusVerificationTest extends TestCase
             ->willReturn('someBody');
         $response = $response->reveal();
 
-        HttpStatusVerification::validateStatus($response);
+        $validator = new HttpStatusValidator($response);
+        $validator->validate();
     }
 
     public function testItThrowsExceptionIfFunctionWasNotFound(): void
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Attempted function call was not found');
+        $this->expectException(FunctionNotFoundException::class);
 
         $response = $this->prophesize(ResponseInterface::class);
         $response
@@ -85,6 +87,7 @@ class HttpStatusVerificationTest extends TestCase
             ->willReturn('error: not found');
         $response = $response->reveal();
 
-        HttpStatusVerification::validateStatus($response);
+        $validator = new HttpStatusValidator($response);
+        $validator->validate();
     }
 }

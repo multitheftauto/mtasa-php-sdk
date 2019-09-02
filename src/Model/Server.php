@@ -48,8 +48,8 @@ class Server
         return $this->httpPort;
     }
 
-    public function getBaseUri(): string
+    public function getEndpoint(): string
     {
-        return sprintf('http://%s:%s', $this->host, $this->httpPort);
+        return sprintf('%s:%s', $this->host, $this->httpPort);
     }
 }

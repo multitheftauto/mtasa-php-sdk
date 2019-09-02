@@ -42,7 +42,7 @@ class MtaTest extends TestCase
         $credential = new Authentication('someUser', 'somePassword');
 
         $mta = new Mta($server, $credential, $client);
-        $return = $mta->callFunction('someCallableResource', 'someCallableFunction');
+        $return = $mta->getService()->callFunction('someCallableResource', 'someCallableFunction');
 
         $this->assertInstanceOf(Resource::class, $return[0]);
         $this->assertEquals('someResource', $return[0]->getName());

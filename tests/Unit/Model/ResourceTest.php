@@ -36,7 +36,7 @@ class ResourceTest extends TestCase
     public function testItThrowsExceptionIfMtaInstanceNotPassed(): void
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Resource someName can not be called because Mta manager is not defined');
+        $this->expectExceptionMessage('Resource someName can not be called because Mta service is not defined');
 
         $resource = new Resource('someName');
         $resource->call('someFunction');

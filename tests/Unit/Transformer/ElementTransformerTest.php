@@ -12,7 +12,7 @@
 
 declare(strict_types=1);
 
-namespace MultiTheftAuto\Sdk\Utils;
+namespace MultiTheftAuto\Sdk\Transformer;
 
 use MultiTheftAuto\Sdk\Model\Element;
 use MultiTheftAuto\Sdk\Model\Resource;

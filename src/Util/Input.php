@@ -12,7 +12,7 @@
 
 declare(strict_types=1);
 
-namespace MultiTheftAuto\Sdk\Utils;
+namespace MultiTheftAuto\Sdk\Util;
 
 abstract class Input
 {

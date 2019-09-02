@@ -12,9 +12,9 @@
 
 declare(strict_types=1);
 
-namespace MultiTheftAuto\Sdk\Utils;
+namespace MultiTheftAuto\Sdk\Transformer;
 
-use RuntimeException;
+use MultiTheftAuto\Sdk\Factory\ElementFactory;
 
 abstract class ElementTransformer
 {
@@ -32,13 +32,7 @@ abstract class ElementTransformer
 
     public static function toServer(array $inputData): string
     {
-        $output = json_encode($inputData);
-
-        if (!$output) {
-            throw new RuntimeException('There was an error trying to encode your request data');
-        }
-
-        return $output;
+        return json_encode($inputData) ?: '';
     }
 
     protected static function stringValuesToObjects(&$value): void
