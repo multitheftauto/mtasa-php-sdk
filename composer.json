@@ -6,7 +6,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^7.1",
+        "php": "^7.3",
         "ext-json": "^1.5",
         "php-http/client-implementation": "^1.0",
         "php-http/httplug": "^2.0",

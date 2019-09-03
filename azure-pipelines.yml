@@ -3,7 +3,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  phpVersion: 7.1
+  phpVersion: 7.3
 
 steps:
   - script: |
