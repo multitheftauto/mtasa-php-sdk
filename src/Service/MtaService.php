@@ -78,7 +78,7 @@ class MtaService
 
         $endpoint = $this->getEndpointToResourceFunction($resourceName, $functionName);
         $request = $this->requestFactory->createRequest(self::HTTP_METHOD, $endpoint);
-        $request->withBody($streamBody);
+        $request = $request->withBody($streamBody);
 
         $auth = new BasicAuth($this->auth->getUser(), $this->auth->getPassword());
         $request = $auth->authenticate($request);
