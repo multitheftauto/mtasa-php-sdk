@@ -31,9 +31,7 @@ try {
 	$mta = new Mta($server, $auth);
 
 	$val = explode(",", $val);
-	$json_data = json_encode($val);
-	echo $mta->getResource($resource)->call($function, $json_data);
-
+	echo $mta->getResource($resource)->call($function, $val);
 } catch( Exception $e ) {
 	@header('HTTP/1.0 500 Internal Server Error');
 	echo $e->getMessage();
