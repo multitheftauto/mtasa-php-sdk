@@ -1,6 +1,4 @@
-# MTA:SA PHP SDK
-[![Build Status](https://travis-ci.com/multitheftauto/mtasa-php-sdk.svg?branch=master)](https://travis-ci.com/multitheftauto/mtasa-php-sdk)
-
+# MTA:SA PHP SDK [![Build Status](https://dev.azure.com/multitheftauto/mtasa-php-sdk/_apis/build/status/multitheftauto.mtasa-php-sdk?branchName=master)](https://dev.azure.com/multitheftauto/mtasa-php-sdk/_build/latest?definitionId=1&branchName=master)
 You can access the MTA Web Interface from almost any programming language that can request web pages. PHP can do this very easily.
 
 This SDK provides one function call that will allow you to call any exported script functions on any server that you have access to.
