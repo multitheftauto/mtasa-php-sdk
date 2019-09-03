@@ -9,7 +9,7 @@ See the [official wiki page](https://wiki.multitheftauto.com/wiki/PHP_SDK) for f
 
 ### Prerequisites
 
-This SDK require PHP 7.1 or greater
+This SDK requires PHP 7.1 or greater.
 
 ### Setup
 
@@ -21,10 +21,12 @@ composer require multitheftauto/mtasa-php-sdk
 
 ### HTTPlug client abstraction
 
-As this SDK use HTTPlug, you will have to require some libraries for get it working. See at [HTTPlug for library users](http://docs.php-http.org/en/latest/httplug/users.html). 
+As this SDK uses HTTPlug, you will have to require some libraries for get it working. See ["HTTPlug for library users"](http://docs.php-http.org/en/latest/httplug/users.html) for more info.
+
 ## A simple example
 
-You have multiple combinations for calling a mta server exported functions. Three ways are shown in example:
+There are three ways to call an MTA server's exported functions, as shown in the following example:
+
 ```php
 <?php
 
@@ -39,9 +41,9 @@ $auth = new Authentication('myUser', 'myPassword');
 $mta = new Mta($server, $auth);
 
 $response = $mta->getResource('someResource')->call('callableFunction', $arg1, $arg2, $arg3, ...);
-//or
+// or
 $response = $mta->getResource('someResource')->callableFunction($arg1, $arg2, $arg3, ...);
-//or also
+// or also
 $response = $mta->someResource->callableFunction($arg1, $arg2, $arg3, ...);
 
 var_dump($response);
