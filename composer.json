@@ -1,0 +1,48 @@
+{
+    "name": "multitheftauto/mtasa-php-sdk",
+    "description": "PHP Sdk to interact with MTA's server. See more at https://wiki.multitheftauto.com/wiki/PHP_SDK",
+    "type": "project",
+    "license": "GPL-3.0",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "^7.3",
+        "ext-json": "^1.5",
+        "php-http/client-implementation": "^1.0",
+        "php-http/httplug": "^2.0",
+        "psr/http-factory": "^1.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.13",
+        "guzzlehttp/psr7": "^1.5",
+        "http-interop/http-factory-guzzle": "^1.0",
+        "php-http/mock-client": "^1.1",
+        "phpspec/prophecy": "~1.0",
+        "phpstan/phpstan": "^0.10.7",
+        "phpunit/phpunit": "^7"
+    },
+    "config": {
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "MultiTheftAuto\\Sdk\\": "src/"
+        }
+    },
+    "scripts": {
+        "lint": "php-cs-fixer fix --verbose --show-progress=estimating",
+        "lint:check": [
+            "php-cs-fixer fix --dry-run --verbose --show-progress=estimating"
+        ],
+        "phpunit": "phpunit tests",
+        "phpstan": "phpstan analyse",
+        "test": [
+            "@lint:check",
+            "@phpunit",
+            "@phpstan"
+        ]
+    }
+}
