@@ -9,7 +9,7 @@ See the [official wiki page](https://wiki.multitheftauto.com/wiki/PHP_SDK) for f
 
 ### Prerequisites
 
-This SDK requires PHP 7.1 or greater.
+This SDK requires PHP 7.3 or greater.
 
 ### Setup
 
