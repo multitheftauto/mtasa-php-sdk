@@ -42,7 +42,7 @@ $mta = new Mta($server, $auth);
 
 $response = $mta->getResource('someResource')->call('callableFunction', $arg1, $arg2, $arg3, ...);
 // or
-$response = $mta->getResource('someResource')->callableFunction($arg1, $arg2, $arg3, ...);
+$response = $mta->getResource('someResource')->call->callableFunction($arg1, $arg2, $arg3, ...);
 
 var_dump($response);
 ```

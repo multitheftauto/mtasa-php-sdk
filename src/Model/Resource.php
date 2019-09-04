@@ -30,6 +30,8 @@ class Resource implements JsonSerializable
      */
     private $mtaService;
 
+    public $call;
+
     public const SERVER_PREFIX = '^R^';
     protected const UNDEFINED_SERVICE_EXCEPTION = 'Resource %s can not be called because Mta service is not defined';
 
@@ -37,6 +39,7 @@ class Resource implements JsonSerializable
     {
         $this->name = $name;
         $this->mtaService = $mtaService;
+        $this->call = new ResourceCall($this);
     }
 
     public static function fromServer(string $value): self
@@ -61,12 +64,6 @@ class Resource implements JsonSerializable
         }
 
         return $this->mtaService->callFunction($this->name, $function, $arguments);
-    }
-
-    public function __call(string $name, array $arguments)
-    {
-        array_unshift($arguments, $name);
-        return call_user_func_array([$this, 'call'], $arguments);
     }
 
     public function jsonSerialize(): string
