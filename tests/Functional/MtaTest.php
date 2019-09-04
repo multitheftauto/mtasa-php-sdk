@@ -90,18 +90,4 @@ class MtaTest extends TestCase
         $this->assertInstanceOf(Resource::class, $resource);
         $this->assertEquals($resourceName, $resource->getName());
     }
-
-    public function testItReturnResource2()
-    {
-        $server = $this->createMock(Server::class);
-        $credential = $this->createMock(Authentication::class);
-        $client = new Client();
-        $mta = new Mta($server, $credential, $client);
-
-        $resourceName = 'someResource';
-        $resource = $mta->$resourceName;
-
-        $this->assertInstanceOf(Resource::class, $resource);
-        $this->assertEquals($resourceName, $resource->getName());
-    }
 }

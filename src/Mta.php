@@ -86,9 +86,4 @@ class Mta
     {
         echo ElementTransformer::toServer($arguments);
     }
-
-    public function __get(string $resourceName): MtaResource
-    {
-        return $this->getResource($resourceName);
-    }
 }
