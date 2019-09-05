@@ -1,10 +1,17 @@
 {
     "name": "multitheftauto/mtasa-php-sdk",
-    "description": "PHP Sdk to interact with MTA's server. See more at https://wiki.multitheftauto.com/wiki/PHP_SDK",
-    "type": "project",
-    "license": "GPL-3.0",
-    "minimum-stability": "dev",
+    "description": "MTA SDK to interact with MTA's server.",
+    "version": "1.0.0",
+    "type": "library",
+    "license": "MIT",
+    "minimum-stability": "stable",
     "prefer-stable": true,
+    "homepage": "https://mtasa.com/",
+    "support": {
+        "chat": "https://mtasa.com/discord",
+        "forum": "https://forum.mtasa.com",
+        "wiki": "https://wiki.multitheftauto.com/wiki/PHP_SDK"
+    },
     "require": {
         "php": "^7.3",
         "ext-json": "^1.5",
