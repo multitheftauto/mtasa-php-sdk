@@ -1,4 +1,6 @@
-# MTA:SA PHP SDK [![Build Status](https://dev.azure.com/multitheftauto/mtasa-php-sdk/_apis/build/status/multitheftauto.mtasa-php-sdk?branchName=master)](https://dev.azure.com/multitheftauto/mtasa-php-sdk/_build/latest?definitionId=1&branchName=master)
+# MTA:SA PHP SDK 
+[![Build Status](https://dev.azure.com/multitheftauto/mtasa-php-sdk/_apis/build/status/multitheftauto.mtasa-php-sdk?branchName=master)](https://dev.azure.com/multitheftauto/mtasa-php-sdk/_build/latest?definitionId=1&branchName=master)
+
 You can access the MTA Web Interface from almost any programming language that can request web pages. PHP can do this very easily.
 
 This SDK provides one function call that will allow you to call any exported script functions on any server that you have access to.
@@ -11,6 +13,12 @@ See the [official wiki page](https://wiki.multitheftauto.com/wiki/PHP_SDK) for f
 
 This SDK requires PHP 7.1 or greater.
 
+### HTTPlug client abstraction
+
+As this SDK uses HTTPlug, you will have to require some libraries for get it working. See ["HTTPlug for library users"](http://docs.php-http.org/en/latest/httplug/users.html) for more info.
+
+:warning: **Note**: If you don't follow this requirement before require the SDK, composer will throw you an error.
+
 ### Setup
 
 The only supported installation method is via [Composer](https://getcomposer.org). Run the following command to require this SDK in your project:
@@ -18,10 +26,6 @@ The only supported installation method is via [Composer](https://getcomposer.org
 ```
 composer require multitheftauto/mtasa-php-sdk
 ```
-
-### HTTPlug client abstraction
-
-As this SDK uses HTTPlug, you will have to require some libraries for get it working. See ["HTTPlug for library users"](http://docs.php-http.org/en/latest/httplug/users.html) for more info.
 
 ## A simple example
 
