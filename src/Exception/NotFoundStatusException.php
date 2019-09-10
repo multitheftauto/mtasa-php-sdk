@@ -14,14 +14,7 @@ declare(strict_types=1);
 
 namespace MultiTheftAuto\Sdk\Exception;
 
-use Exception;
-
-class NotFoundStatusException extends Exception
+class NotFoundStatusException extends MessageException
 {
     protected const EXCEPTION_MESSAGE = 'There was a problem with the request. Ensure that the resource exists and that the name is spelled correctly.';
-
-    public function __construct()
-    {
-        parent::__construct(self::EXCEPTION_MESSAGE);
-    }
 }

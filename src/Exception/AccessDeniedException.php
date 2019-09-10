@@ -14,14 +14,7 @@ declare(strict_types=1);
 
 namespace MultiTheftAuto\Sdk\Exception;
 
-use Exception;
-
-class AccessDeniedException extends Exception
+class AccessDeniedException extends MessageException
 {
     protected const EXCEPTION_MESSAGE = 'Access Denied. This server requires authentication. Please ensure that a valid username and password combination is provided.';
-
-    public function __construct()
-    {
-        parent::__construct(self::EXCEPTION_MESSAGE);
-    }
 }
