@@ -18,6 +18,15 @@ use PHPUnit\Framework\TestCase;
 
 class ResourcesTest extends TestCase
 {
+    public function testItAddsAResource(): void
+    {
+        $resources = new Resources();
+        $resource = new Resource('someName');
+        $resources->add($resource);
+
+        $this->assertCount(1, $resources->all());
+    }
+
     public function testItFindsExistingResource(): void
     {
         $resources = new Resources();

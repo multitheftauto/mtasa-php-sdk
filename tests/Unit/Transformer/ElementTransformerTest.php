@@ -46,4 +46,12 @@ class ElementTransformerTest extends TestCase
         $output = ElementTransformer::toServer($array);
         $this->assertEquals('["^R^someResource","String",["^E^someElement"],"^E^someElement2"]', $output);
     }
+
+    public function testItReturnsNullIfDataIsEmpty(): void
+    {
+        $input = '';
+        $fromInput = ElementTransformer::fromServer($input);
+
+        $this->assertNull($fromInput);
+    }
 }

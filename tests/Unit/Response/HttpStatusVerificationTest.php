@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace MultiTheftAuto\Sdk\Response;
 
 use Exception;
+use Http\Factory\Guzzle\StreamFactory;
 use MultiTheftAuto\Sdk\Exception\AccessDeniedException;
 use MultiTheftAuto\Sdk\Exception\FunctionNotFoundException;
 use MultiTheftAuto\Sdk\Exception\NotFoundStatusException;
@@ -61,13 +62,15 @@ class HttpStatusVerificationTest extends TestCase
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Something went wrong. HTTP Status Code: 201 | Body: someBody');
 
+        $stream = (new StreamFactory())->createStream('someBody');
+
         $response = $this->prophesize(ResponseInterface::class);
         $response
             ->getStatusCode()
             ->willReturn(201);
         $response
             ->getBody()
-            ->willReturn('someBody');
+            ->willReturn($stream);
         $response = $response->reveal();
 
         $validator = new HttpStatusValidator($response);
@@ -78,13 +81,15 @@ class HttpStatusVerificationTest extends TestCase
     {
         $this->expectException(FunctionNotFoundException::class);
 
+        $stream = (new StreamFactory())->createStream('error: not found');
+
         $response = $this->prophesize(ResponseInterface::class);
         $response
             ->getStatusCode()
             ->willReturn(200);
         $response
             ->getBody()
-            ->willReturn('error: not found');
+            ->willReturn($stream);
         $response = $response->reveal();
 
         $validator = new HttpStatusValidator($response);
