@@ -20,14 +20,17 @@ abstract class ElementTransformer
 {
     public static function fromServer(?string $dataFromServer): ?array
     {
-        if (!empty($dataFromServer)) {
-            $dataFromServer = json_decode($dataFromServer, true);
-            foreach ($dataFromServer as &$value) {
-                ElementTransformer::stringValuesToObjects($value);
-            }
+        if (empty($dataFromServer)) {
+            return null;
         }
 
-        return $dataFromServer;
+        $data = json_decode($dataFromServer);
+
+        foreach ($data as &$value) {
+            ElementTransformer::stringValuesToObjects($value);
+        }
+
+        return $data;
     }
 
     public static function toServer(array $inputData): string
