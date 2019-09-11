@@ -37,4 +37,12 @@ class Resources
     {
         $this->resources[] = $resource;
     }
+
+    /**
+     * @return MtaResource[]
+     */
+    public function all(): array
+    {
+        return $this->resources;
+    }
 }
