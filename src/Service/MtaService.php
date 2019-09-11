@@ -93,7 +93,7 @@ class MtaService
         return  ElementTransformer::fromServer($responseBody) ?? null;
     }
 
-    protected function getEndpointToResourceFunction(string $resourceName, string $functionName): string
+    private function getEndpointToResourceFunction(string $resourceName, string $functionName): string
     {
         return sprintf(
             self::MTA_RESOURCE_ENDPOINT,

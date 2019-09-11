@@ -35,7 +35,7 @@ abstract class ElementTransformer
         return json_encode($inputData) ?: '';
     }
 
-    protected static function stringValuesToObjects(&$value): void
+    private static function stringValuesToObjects(&$value): void
     {
         if (is_array($value)) {
             foreach ($value as &$subValue) {
