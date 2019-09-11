@@ -74,6 +74,11 @@ class Mta
         return $resource;
     }
 
+    public function getResourcesInstance(): Resources
+    {
+        return $this->resources;
+    }
+
     /**
      * @codeCoverageIgnore
      */
