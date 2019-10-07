@@ -86,6 +86,29 @@ class MtaTest extends TestCase
         $this->assertEquals('someElementId', $return[2]->getId());
     }
 
+    public function testItAcceptsScalarParameter(): void
+    {
+        $response = $this->prophesize(ResponseInterface::class);
+        $response
+            ->getBody()
+            ->willReturn('["^R^someResource","someString","^E^someElementId"]');
+        $response
+            ->getStatusCode()
+            ->willReturn(200);
+        $response = $response->reveal();
+
+        $client = new Client();
+        $client->addResponse($response);
+
+        $server = new Server('127.0.0.1', 22005);
+        $credential = new Authentication('someUser', 'somePassword');
+
+        $mta = new Mta($server, $credential, $client);
+        $return = $mta->getResource('someCallableResource')->call->someCallableFunction(1, "Test");
+
+        $this->assertIsArray($return);
+    }
+
     public function testItPrintsSomeJson(): void
     {
         Mta::doReturn('someValue1', 'someValue2');

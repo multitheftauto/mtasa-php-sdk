@@ -57,7 +57,7 @@ class Resource implements JsonSerializable
      * @throws \Http\Client\Exception
      * @throws Exception
      */
-    public function call(string $function, array ...$arguments)
+    public function call(string $function, ...$arguments)
     {
         if (!$this->mtaService) {
             throw new Exception(sprintf(self::UNDEFINED_SERVICE_EXCEPTION, $this->name));
