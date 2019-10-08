@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.2] - 2019-10-07
+### Fixed
+- Remove wrong scalar type declaration at resource call method
+
 ## [1.0.1] - 2019-10-03
 ### Added
 - Add custom exceptions for server code errors
@@ -40,7 +44,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/multitheftauto/mtasa-php-sdk/compare/1.0.1...HEAD
+[Unreleased]: https://github.com/multitheftauto/mtasa-php-sdk/compare/1.0.2...HEAD
+[1.0.2]: https://github.com/multitheftauto/mtasa-php-sdk/compare/1.0.1...1.0.2
 [1.0.1]: https://github.com/multitheftauto/mtasa-php-sdk/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/multitheftauto/mtasa-php-sdk/compare/v0.4.0...1.0.0
 [0.4.0]: https://github.com/multitheftauto/mtasa-php-sdk/compare/v0.3.0...v0.4.0
