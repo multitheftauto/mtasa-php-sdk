@@ -30,6 +30,9 @@ class Resource implements JsonSerializable
      */
     private $mtaService;
 
+    /**
+     * @var ResourceCall
+     */
     public $call;
 
     public const SERVER_PREFIX = '^R^';
