@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.2] - 2019-10-07
 ### Fixed
-- Remove wrong scalar type declaration at resource call method
+- Remove wrong scalar type declaration at resource call method (Thanks to [@MegaThorx](https://github.com/MegaThorx) in [PR #6](https://github.com/multitheftauto/mtasa-php-sdk/pull/6))
 
 ## [1.0.1] - 2019-10-03
 ### Added
