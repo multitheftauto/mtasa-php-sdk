@@ -1,4 +1,5 @@
 # MTA:SA PHP SDK 
+![PHP Composer](https://github.com/multitheftauto/mtasa-php-sdk/workflows/PHP%20Composer/badge.svg?branch=master)
 
 You can access the MTA Web Interface from almost any programming language that can request web pages. PHP can do this very easily.
 
