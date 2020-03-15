@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.3] - 2020-03-14
+### Fixed
+- Fix JSON extension compatibility with PHP 7.4
+
 ## [1.0.2] - 2019-10-07
 ### Fixed
 - Remove wrong scalar type declaration at resource call method (Thanks to [@MegaThorx](https://github.com/MegaThorx) in [PR #6](https://github.com/multitheftauto/mtasa-php-sdk/pull/6))
