@@ -30,7 +30,6 @@ class ResourceCall
 
     public function __call(string $name, array $arguments)
     {
-        array_unshift($arguments, $name);
-        return call_user_func_array([$this->resource, 'call'], $arguments);
+        return $this->resource->call($name, ...$arguments);
     }
 }
