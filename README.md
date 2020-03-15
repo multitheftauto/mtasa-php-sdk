@@ -1,5 +1,4 @@
 # MTA:SA PHP SDK 
-[![Build Status](https://dev.azure.com/multitheftauto/mtasa-php-sdk/_apis/build/status/multitheftauto.mtasa-php-sdk?branchName=master)](https://dev.azure.com/multitheftauto/mtasa-php-sdk/_build/latest?definitionId=1&branchName=master)
 
 You can access the MTA Web Interface from almost any programming language that can request web pages. PHP can do this very easily.
 
