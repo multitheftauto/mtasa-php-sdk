@@ -46,12 +46,10 @@ class HttpStatusValidator
             case 401:
                 {
                     throw new AccessDeniedException();
-                    break;
                 }
             case 404:
                 {
                     throw new NotFoundStatusException();
-                    break;
                 }
             case 200:
                 {

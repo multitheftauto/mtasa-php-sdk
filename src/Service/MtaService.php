@@ -68,8 +68,11 @@ class MtaService
     }
 
     /**
+     * @param mixed[]  $arguments
+     *
      * @throws \Http\Client\Exception
      * @throws \Exception
+     * @return mixed[]|null
      */
     public function callFunction(string $resourceName, string $functionName, array $arguments = []): ?array
     {

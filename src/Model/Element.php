@@ -25,7 +25,7 @@ class Element implements JsonSerializable
 
     public const SERVER_PREFIX = '^E^';
 
-    public function __construct(string $id)
+    final public function __construct(string $id)
     {
         $this->id = $id;
     }

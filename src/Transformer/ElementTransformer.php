@@ -18,6 +18,9 @@ use MultiTheftAuto\Sdk\Factory\ElementFactory;
 
 abstract class ElementTransformer
 {
+    /**
+     * @return mixed[]|null
+     */
     public static function fromServer(?string $dataFromServer): ?array
     {
         if (empty($dataFromServer)) {
@@ -33,11 +36,18 @@ abstract class ElementTransformer
         return $data;
     }
 
+    /**
+     * @param mixed[] $inputData
+     *
+     */
     public static function toServer(array $inputData): string
     {
         return json_encode($inputData) ?: '';
     }
 
+    /**
+     * @param mixed[]|string $value
+     */
     private static function stringValuesToObjects(&$value): void
     {
         if (is_array($value)) {

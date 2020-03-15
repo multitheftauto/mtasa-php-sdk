@@ -15,10 +15,13 @@ declare(strict_types=1);
 namespace MultiTheftAuto\Sdk\Factory;
 
 use MultiTheftAuto\Sdk\Model\Element;
-use MultiTheftAuto\Sdk\Model\Resource;
+use MultiTheftAuto\Sdk\Model\Resource as MtaResource;
 
 class ElementFactory
 {
+    /**
+     * @return Element|MtaResource|string
+     */
     public static function fromServer(string $value)
     {
         $valuePrefix = substr($value, 0, 3);
@@ -27,8 +30,8 @@ class ElementFactory
             case Element::SERVER_PREFIX: {
                 return Element::fromServer($value);
             }
-            case Resource::SERVER_PREFIX: {
-                return Resource::fromServer($value);
+            case MtaResource::SERVER_PREFIX: {
+                return MtaResource::fromServer($value);
             }
         }
 

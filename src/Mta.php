@@ -81,12 +81,16 @@ class Mta
 
     /**
      * @codeCoverageIgnore
+     * @return array|mixed[]|null
      */
     public static function getInput(): ?array
     {
         return ElementTransformer::fromServer(Input::get()) ?? null;
     }
 
+    /**
+     * @param mixed ...$arguments
+     */
     public static function doReturn(...$arguments): void
     {
         echo ElementTransformer::toServer($arguments);

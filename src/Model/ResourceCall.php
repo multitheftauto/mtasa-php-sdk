@@ -28,6 +28,12 @@ class ResourceCall
         $this->resource = $resource;
     }
 
+    /**
+     * @param mixed[]  $arguments
+     *
+     * @throws \Http\Client\Exception
+     * @return array|mixed[]|null
+     */
     public function __call(string $name, array $arguments)
     {
         return $this->resource->call($name, ...$arguments);
