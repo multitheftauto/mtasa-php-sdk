@@ -14,7 +14,7 @@
     },
     "require": {
         "php": "^7.1",
-        "ext-json": "^1.5",
+        "ext-json": "*",
         "php-http/client-implementation": "^1.0",
         "php-http/httplug": "^2.0",
         "psr/http-factory": "^1.0"
