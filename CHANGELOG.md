@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Changed
-- Use array unpackaging instead of using `call_user_func_array` instead in ResourceCall class
+- Use array unpackaging instead of using `call_user_func_array` in ResourceCall class
 
 ## [1.0.3] - 2020-03-14
 ### Fixed
@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2019-09-05
 ### Added
+- Full rework of the SDK
 - Add server model for IP and port
 - Add authentication model for user and password
 - Add possibility of choosing the http client, request and stream factory
