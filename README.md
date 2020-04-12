@@ -17,6 +17,11 @@ This SDK requires PHP 7.1 or greater.
 
 As this SDK uses HTTPlug, you will have to require some libraries for get it working. See ["HTTPlug for library users"](http://docs.php-http.org/en/latest/httplug/users.html) for more info.
 
+**Quick installation (Fixed from HTTPlug documentation)**
+```
+composer require php-http/curl-client guzzlehttp/psr7 php-http/message http-interop/http-factory-guzzle
+```
+
 :warning: **Note**: If you don't follow this requirement before require the SDK, composer will throw you an error.
 
 ### Setup
