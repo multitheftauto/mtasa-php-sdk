@@ -20,7 +20,7 @@
         "psr/http-factory": "^1.0"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.13",
+        "friendsofphp/php-cs-fixer": "^2.16",
         "guzzlehttp/psr7": "^1.5",
         "http-interop/http-factory-guzzle": "^1.0",
         "infection/infection": "^0.11.5",
