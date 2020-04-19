@@ -1,6 +1,6 @@
 /examples export-ignore
 /tests export-ignore
-/azure-pipelines.yml export-ignore
 /.php_cs.dist export-ignore
 /phpstan.neon.dist export-ignore
 /phpunit.xml.dist export-ignore
+/.github export-ignore
