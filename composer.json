@@ -1,7 +1,7 @@
 {
     "name": "multitheftauto/mtasa-php-sdk",
     "description": "MTA SDK to interact with MTA's server.",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "type": "library",
     "license": "MIT",
     "minimum-stability": "stable",
