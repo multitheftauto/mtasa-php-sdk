@@ -14,8 +14,8 @@ declare(strict_types=1);
 
 namespace MultiTheftAuto\Sdk\Transformer;
 
-use MultiTheftAuto\Sdk\Factory\ElementFactory;
 use MultiTheftAuto\Sdk\Exception\NotCallableResourceException;
+use MultiTheftAuto\Sdk\Factory\ElementFactory;
 
 abstract class ElementTransformer
 {
