@@ -30,12 +30,12 @@ abstract class ElementTransformer
 
         $data = json_decode($dataFromServer);
 
-        if ($data !== NULL) {
-            foreach ($data as &$value) {
-                ElementTransformer::stringValuesToObjects($value);
-            }
-        } else {
-            throw new NotCallableResourceException();
+        if ($data === null) {
+            throw new NotCallableResourceException();   
+        }
+        
+        foreach ($data as &$value) {
+            ElementTransformer::stringValuesToObjects($value);
         }
 
         return $data;
