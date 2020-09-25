@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace MultiTheftAuto\Sdk\Transformer;
 
+use MultiTheftAuto\Sdk\Exception\NotCallableResourceException;
 use MultiTheftAuto\Sdk\Factory\ElementFactory;
 
 abstract class ElementTransformer
@@ -29,6 +30,10 @@ abstract class ElementTransformer
 
         $data = json_decode($dataFromServer);
 
+        if ($data === null) {
+            throw new NotCallableResourceException();   
+        }
+        
         foreach ($data as &$value) {
             ElementTransformer::stringValuesToObjects($value);
         }
