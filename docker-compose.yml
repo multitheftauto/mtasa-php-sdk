@@ -1,0 +1,7 @@
+version: '3.7'
+services:
+  php:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: multitheftauto/mtasa-php-sdk:latest

@@ -55,3 +55,34 @@ $response = $mta->getResource('someResource')->call->callableFunction($arg1, $ar
 
 var_dump($response);
 ```
+
+# Development environment setup
+
+**Prerequisites**:
+- [docker-compose](https://docs.docker.com/compose/install/)
+
+First, we need to build the local docker image. To do this, run the following command:
+
+    $ docker-compose build
+
+We will be using an alias for executing the development commands.
+
+    $ alias dcli='docker-compose -f docker-compose.cli.yml run --rm'
+
+**Install dependencies**:
+
+    $ dcli composer install
+
+## Running tests
+
+To run the project tests and validate the coding standards:
+
+    $ dcli composer test
+
+To run all unit tests you can use:
+
+    $ dcli phpunit
+
+To run specific unit test you can use --filter option:
+
+    $ dcli phpunit --filter=ClassName::MethodName

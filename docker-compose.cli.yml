@@ -1,0 +1,26 @@
+version: '3.7'
+services:
+  composer:
+    image: multitheftauto/mtasa-php-sdk:latest
+    init: true
+    volumes:
+      - .:/application
+      - composer-cache:/root/.composer/cache
+    entrypoint: composer
+
+  phpunit:
+    image: multitheftauto/mtasa-php-sdk:latest
+    init: true
+    volumes:
+      - .:/application
+    entrypoint: vendor/bin/phpunit
+
+  php:
+    image: multitheftauto/mtasa-php-sdk:latest
+    init: true
+    volumes:
+      - .:/application
+
+volumes: 
+  composer-cache:
+    name: composer-cache    
