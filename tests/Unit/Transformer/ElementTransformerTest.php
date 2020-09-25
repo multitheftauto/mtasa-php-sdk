@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace MultiTheftAuto\Sdk\Transformer;
 
+use MultiTheftAuto\Sdk\Exception\NotCallableResourceException;
 use MultiTheftAuto\Sdk\Model\Element;
 use MultiTheftAuto\Sdk\Model\Resource;
 use PHPUnit\Framework\TestCase;
@@ -53,5 +54,13 @@ class ElementTransformerTest extends TestCase
         $fromInput = ElementTransformer::fromServer($input);
 
         $this->assertNull($fromInput);
+    }
+
+    public function testItThrowsExceptionOnUnparseableData(): void
+    {
+        $this->expectException(NotCallableResourceException::class);
+
+        $input = 'Resource not running';
+        ElementTransformer::fromServer($input);
     }
 }
