@@ -11,7 +11,7 @@ RUN apt-get update \
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_HOME /root/.composer
 
-COPY --from=composer:1.10.10 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.0.7 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /application
 
