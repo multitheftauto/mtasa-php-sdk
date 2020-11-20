@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.6] - 2020-11-20
+### Changed
+- Updated dependencies
+
 ## [1.0.5] - 2020-09-25
 ### Fixed
 - Throw exception instead of getting a php warning when calling to non-running resource (Thanks to [@Daemant](https://github.com/Daemant) in [PR #42](https://github.com/multitheftauto/mtasa-php-sdk/pull/42))
@@ -58,7 +62,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/multitheftauto/mtasa-php-sdk/compare/v1.0.5...HEAD
+[Unreleased]: https://github.com/multitheftauto/mtasa-php-sdk/compare/v1.0.6...HEAD
+[1.0.6]: https://github.com/multitheftauto/mtasa-php-sdk/compare/v1.0.5...v.1.0.6
 [1.0.5]: https://github.com/multitheftauto/mtasa-php-sdk/compare/v1.0.4...v.1.0.5
 [1.0.4]: https://github.com/multitheftauto/mtasa-php-sdk/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/multitheftauto/mtasa-php-sdk/compare/v1.0.2...v1.0.3
