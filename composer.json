@@ -20,7 +20,7 @@
     },
     "require-dev": {
         "composer/package-versions-deprecated": "1.11.99.1",
-        "friendsofphp/php-cs-fixer": "^2.16",
+        "friendsofphp/php-cs-fixer": "^2.17",
         "guzzlehttp/psr7": "^1.7",
         "http-interop/http-factory-guzzle": "^1.0",
         "infection/infection": "^0.11.5",
