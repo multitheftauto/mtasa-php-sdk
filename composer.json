@@ -7,12 +7,12 @@
     "prefer-stable": true,
     "homepage": "https://mtasa.com/",
     "support": {
-        "chat": "https://mtasa.com/discord",
+        "chat": "https://discord.gg/mtasa",
         "forum": "https://forum.mtasa.com",
         "wiki": "https://wiki.multitheftauto.com/wiki/PHP_SDK"
     },
     "require": {
-        "php": "^7.1",
+        "php": "^7.3",
         "ext-json": "*",
         "php-http/client-implementation": "^1.0",
         "php-http/httplug": "^2.2",
@@ -31,7 +31,7 @@
     },
     "config": {
         "platform": {
-            "php": "7.1"
+            "php": "7.3"
         },
         "preferred-install": {
             "*": "dist"
