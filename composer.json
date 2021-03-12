@@ -27,7 +27,7 @@
         "php-http/mock-client": "^1.1",
         "phpspec/prophecy": "~1.0",
         "phpstan/phpstan": "^0.12",
-        "phpunit/phpunit": "^7"
+        "phpunit/phpunit": "^8"
     },
     "config": {
         "platform": {
