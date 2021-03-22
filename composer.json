@@ -21,7 +21,7 @@
     "require-dev": {
         "composer/package-versions-deprecated": "1.11.99.1",
         "friendsofphp/php-cs-fixer": "^2.18",
-        "guzzlehttp/psr7": "^1.7",
+        "guzzlehttp/psr7": "^1.8",
         "http-interop/http-factory-guzzle": "^1.0",
         "infection/infection": "^0.11.5",
         "php-http/mock-client": "^1.1",
