@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2021-03-06
+### Added
+- Support for PHP 8
+### Changed
+- Updated dependencies
+
 ## [1.0.6] - 2020-11-20
 ### Changed
 - Updated dependencies
@@ -62,7 +68,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/multitheftauto/mtasa-php-sdk/compare/v1.0.6...HEAD
+[Unreleased]: https://github.com/multitheftauto/mtasa-php-sdk/compare/v1.0.7...HEAD
+[1.0.7]: https://github.com/multitheftauto/mtasa-php-sdk/compare/v1.0.6...v.1.0.7
 [1.0.6]: https://github.com/multitheftauto/mtasa-php-sdk/compare/v1.0.5...v.1.0.6
 [1.0.5]: https://github.com/multitheftauto/mtasa-php-sdk/compare/v1.0.4...v.1.0.5
 [1.0.4]: https://github.com/multitheftauto/mtasa-php-sdk/compare/v1.0.3...v1.0.4
