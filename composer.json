@@ -23,7 +23,7 @@
         "friendsofphp/php-cs-fixer": "^2.19",
         "guzzlehttp/psr7": "^2.1",
         "http-interop/http-factory-guzzle": "^1.2",
-        "infection/infection": "^0.11.5",
+        "infection/infection": "^0.18.2",
         "php-http/mock-client": "^1.1",
         "phpspec/prophecy": "~1.15",
         "phpstan/phpstan": "^1.4",
