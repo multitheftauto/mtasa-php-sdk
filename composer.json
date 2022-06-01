@@ -26,7 +26,7 @@
         "infection/infection": "^0.18.2",
         "php-http/mock-client": "^1.1",
         "phpspec/prophecy": "~1.15",
-        "phpstan/phpstan": "^1.4",
+        "phpstan/phpstan": "^1.7",
         "phpunit/phpunit": "^9"
     },
     "config": {
