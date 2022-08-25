@@ -5,10 +5,10 @@
     "license": "MIT",
     "minimum-stability": "stable",
     "prefer-stable": true,
-    "homepage": "https://mtasa.com/",
+    "homepage": "https://multitheftauto.com/",
     "support": {
-        "chat": "https://discord.gg/mtasa",
-        "forum": "https://forum.mtasa.com",
+        "chat": "https://discord.com/invite/mtasa",
+        "forum": "https://forum.multitheftauto.com",
         "wiki": "https://wiki.multitheftauto.com/wiki/PHP_SDK"
     },
     "require": {
