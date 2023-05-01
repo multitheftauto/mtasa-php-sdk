@@ -15,7 +15,7 @@
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
         "php-http/client-implementation": "^1.0",
-        "php-http/httplug": "^2.3",
+        "php-http/httplug": "^2.4",
         "psr/http-factory": "^1.0"
     },
     "require-dev": {
